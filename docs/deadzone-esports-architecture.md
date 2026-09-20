@@ -1,4 +1,4 @@
-# `dropzone-esports` — Architecture & Implementation Blueprint
+# `deadzone-esports` — Architecture & Implementation Blueprint
 
 > **A PUBG Esports Tournament Engine & Telemetry Analyzer**  
 > Built with **Spring Boot (Java 27)** + **React (Vite/TypeScript)**  
@@ -8,11 +8,11 @@
 
 ## 1. Executive Summary & Philosophy
 
-`dropzone-esports` is a tournament management, statistics calculation, and 2D match replay platform inspired by [Twire.gg](https://twire.gg).
+`deadzone-esports` is a tournament management, statistics calculation, and 2D match replay platform inspired by [Twire.gg](https://twire.gg).
 
 * **Functional Core**: 100% pure Java 27 (`record`s, pure functions, sealed types). Zero Spring, zero JPA, zero network/disk I/O, zero mocks needed in tests.
 * **Imperative Shell**: The outer application orchestration that loads data via inbound ports, invokes the functional core, persists results via outbound ports, and coordinates side effects.
-* **Hexagonal Architecture**: Enforced at the compiler level using a multi-project Gradle build (`:domain`, `:application`, `:infrastructure`).
+* **Hexagonal Architecture**: Enforced at the compiler level using a multi-project Gradle build (`:core` and `:infrastructure` inside `backend/`).
 
 ---
 
@@ -60,36 +60,37 @@
 
 ---
 
-## 3. Module Structure (Gradle Multi-Project)
+## 3. Module Structure (Monorepo Layout)
 
 ```
-dropzone-esports/
-├── build.gradle.kts (or .gradle)
-├── settings.gradle.kts
-├── domain/                  # PURE JAVA 27. ZERO DEPENDENCIES.
-│   └── src/
-│       ├── main/java/com/dropzone/domain/
-│       │   ├── model/       # Immutable records: Team, Player, Match, TelemetryEvent
-│       │   ├── rules/       # Pure functions: SuperRuleEngine, TieBreakerSolver
-│       │   └── telemetry/   # Pure reducer: MatchEventReducer, CirclePhaseCalculator
-│       └── test/java/       # Pure unit tests (no Spring, no mocks!)
+deadzone-esports/
+├── backend/                         # JAVA 27 / GRADLE BACKEND
+│   ├── build.gradle (or .kts)       # Root backend build config & dependency management
+│   ├── settings.gradle (or .kts)    # Includes ':core' and ':infrastructure'
+│   │
+│   ├── core/                        # PURE JAVA 27. ZERO DEPENDENCIES (Zero Spring, Zero JPA)
+│   │   └── src/
+│   │       ├── main/java/com/deadzone/core/
+│   │       │   ├── domain/          # Pure Functional Core
+│   │       │   │   ├── model/       # Immutable records: Team, Player, Match, TelemetryEvent
+│   │       │   │   ├── rules/       # Pure functions: SuperRuleEngine, TieBreakerSolver
+│   │       │   │   └── telemetry/   # Pure reducer: MatchEventReducer, CirclePhaseCalculator
+│   │       │   └── application/     # Imperative Shell / Orchestration
+│   │       │       ├── port/in/     # Inbound interfaces (Use Cases: IngestMatchUseCase, etc.)
+│   │       │       ├── port/out/    # Outbound interfaces (SPI: TournamentRepositoryPort, etc.)
+│   │       │       └── service/     # Pure use-case orchestrators (100% free of Spring annotations)
+│   │       └── test/java/           # Fast unit tests (Zero Spring context, zero mocks)
+│   │
+│   └── infrastructure/              # ADAPTERS & RUNTIME (Spring Boot, Web, JPA, Security)
+│       └── src/
+│           ├── main/java/com/deadzone/infra/
+│           │   ├── adapter/in/web/       # REST Controllers (Upload, Standings, Replay)
+│           │   ├── adapter/out/jpa/      # JPA Entities, Mappers, Spring Data Repositories
+│           │   ├── adapter/out/fixture/  # Bundled JSON loader
+│           │   └── config/               # Spring @Configuration & @Bean wiring for Core services
+│           └── test/java/                # Integration tests (Testcontainers + PostgreSQL)
 │
-├── application/             # USE CASES & PORTS (Depends ONLY on :domain)
-│   └── src/
-│       └── main/java/com/dropzone/application/
-│           ├── port/in/     # Inbound interfaces (Use Cases)
-│           └── port/out/    # Outbound interfaces (Repositories, TelemetrySource)
-│
-├── infrastructure/          # ADAPTERS (Spring Boot, JPA, Web, Jackson)
-│   └── src/
-│       ├── main/java/com/dropzone/infra/
-│       │   ├── adapter/in/web/       # REST Controllers (Upload, Standings, Replay)
-│       │   ├── adapter/out/jpa/      # JPA Entities, Mappers, JpaRepository
-│       │   ├── adapter/out/fixture/  # Bundled JSON loader
-│       │   └── config/               # Spring Bean wiring
-│       └── test/java/                # Integration tests (Testcontainers + Postgres)
-│
-└── frontend/                # REACT (Vite + TypeScript + Tailwind CSS)
+└── frontend/                        # REACT (Vite + TypeScript + Tailwind CSS)
     └── src/
         ├── components/
         │   ├── leaderboard/          # SUPER Standings Table with tie-break tooltips
@@ -130,19 +131,19 @@ dropzone-esports/
 
 ## 5. Implementation Roadmap
 
-### Phase 1: Functional Core & SUPER Engine (`:domain`)
+### Phase 1: Functional Core & SUPER Engine (`:core:domain`)
 1. Define immutable domain models: `Team`, `Player`, `MatchResult`, `TeamMatchScore`.
 2. Implement pure `SuperRuleEngine` and `TieBreakerSolver`.
 3. Write comprehensive, data-driven JUnit 5 tests modeling real PGC tie-break situations (zero mocks).
 
-### Phase 2: Telemetry Parser & Stream Reducer (`:domain`)
+### Phase 2: Telemetry Parser & Stream Reducer (`:core:domain`)
 1. Define raw telemetry records (`PlayerKnocked`, `PlayerKilled`, `DamageDealt`, `CircleShrunk`).
 2. Build pure `MatchEventReducer` to extract:
    * Team eliminations and final placements.
    * Circle phases (White safe zone & Blue zone coordinates + radius).
    * Kill vectors (killer location, victim location, weapon name).
 
-### Phase 3: Imperative Shell & Ports (`:application` & `:infrastructure`)
+### Phase 3: Application Use Cases & Infrastructure Adapters (`:core:application` & `:infrastructure`)
 1. Define Inbound/Outbound ports (`TournamentRepositoryPort`, `MatchTelemetryPort`).
 2. Configure PostgreSQL via Docker Compose (`docker-compose.yml`).
 3. Build Spring Data JPA adapter with clean `Domain Record <-> JPA Entity` mappers.
