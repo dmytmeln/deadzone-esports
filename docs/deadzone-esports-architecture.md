@@ -115,12 +115,11 @@ deadzone-esports/
   * 7th: 1 pt
   * 8th: 1 pt
   * 9th–16th: 0 pts
-* **Tie-Breaker Hierarchy (Strict Order)**:
-  1. Total accumulated Kill Points across all matches.
-  2. Best single match Total Points (Placement + Kills).
-  3. Best single match Kill Points.
-  4. Kill Points scored in the most recent match.
-  5. Placement position in the most recent match.
+* **Tie-Breaker Hierarchy (Strict Order — Official S.U.P.E.R.)**:
+  1. Total accumulated Placement Points across all matches in the series.
+  2. Total Match Points (Placement + Kills) scored in the most recent match.
+  3. Placement position in the most recent match.
+  4. Total damage dealt in the most recent match.
 
 ### 4.2 Core Invariants & Reducers
 * **Telemetry Event Reducer**: A pure function folding raw timestamped telemetry events into a clean `MatchReplayState`:

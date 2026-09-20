@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "deny": [
+      "command(rm -rf*)",
+      "command(Remove-Item *-Recurse*-Force*)",
+      "command(Remove-Item *-Force*-Recurse*)",
+      "command(rm *-r*-fo*)",
+      "command(del *-s*-q*)",
+      "command(rd *-s*-q*)",
+      "command(git push --force*)"
+    ]
+  }
+}
