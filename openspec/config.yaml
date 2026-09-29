@@ -1,5 +1,9 @@
 schema: spec-driven
 
+rules:
+  tasks: |
+    End every task with a commit message with the following format: <change id> <task number and name> - <change description>.
+
 # Project context (optional)
 # This is shown to AI when creating artifacts.
 # Add your tech stack, conventions, style guides, domain knowledge, etc.

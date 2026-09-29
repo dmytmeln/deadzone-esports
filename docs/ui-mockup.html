@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deadzone Esports — UI & Functional Specification Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            pubg: {
+              gold: '#F2A900',
+              red: '#E53E3E',
+              blue: '#3182CE',
+              dark: '#0B0E14',
+              surface: '#151A23',
+              card: '#1B2230',
+              border: '#2A364F'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0B0E14; color: #E2E8F0; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #151A23; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #2A364F; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans">
+
+  <!-- Top App Navigation -->
+  <header class="border-b border-pubg-border bg-pubg-surface/80 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-2">
+          <span class="inline-block w-3.5 h-3.5 bg-pubg-gold rounded-sm shadow-[0_0_10px_#F2A900]"></span>
+          <span class="text-xl font-extrabold tracking-wider text-white">DEADZONE<span class="text-pubg-gold">.GG</span></span>
+        </div>
+        <nav class="hidden md:flex space-x-1 text-sm font-medium">
+          <a href="#" class="px-3 py-1.5 rounded-md bg-pubg-card text-white">Tournaments</a>
+          <a href="#" class="px-3 py-1.5 rounded-md text-gray-400 hover:text-white transition">Replays</a>
+          <a href="#" class="px-3 py-1.5 rounded-md text-gray-400 hover:text-white transition">Teams</a>
+        </nav>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button class="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider bg-pubg-gold/10 hover:bg-pubg-gold/20 text-pubg-gold border border-pubg-gold/40 rounded transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          Upload Telemetry
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Tournament Context Header -->
+  <div class="border-b border-pubg-border bg-gradient-to-b from-pubg-surface to-pubg-dark py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-mono text-pubg-gold font-semibold uppercase tracking-widest mb-1">
+            <span>Official Krafton Telemetry</span>
+            <span>•</span>
+            <span>SUPER v1.8</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            PUBG Global Championship 2024
+          </h1>
+          <p class="text-sm text-gray-400 mt-1">16 Teams • 18 Matches • Total Prize Pool $2,000,000</p>
+        </div>
+
+        <!-- Stage Switcher Tabs (Tournament -> Stages) -->
+        <div class="flex items-center p-1 bg-pubg-dark border border-pubg-border rounded-lg text-sm">
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition">Group Stage</button>
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition">Winners Bracket</button>
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition">Last Chance</button>
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-md bg-pubg-gold text-pubg-dark font-bold shadow">Grand Finals</button>
+        </div>
+      </div>
+
+      <!-- Stage Sub-views (Tabs inside Grand Finals Stage) -->
+      <div class="flex items-center space-x-8 mt-6 border-b border-pubg-border/60 text-sm font-semibold">
+        <button onclick="switchTab('leaderboard')" id="tab-leaderboard-btn" class="pb-3 text-gray-400 hover:text-white border-b-2 border-transparent transition">
+          Standings & S.U.P.E.R.
+        </button>
+        <button onclick="switchTab('player-stats')" id="tab-player-stats-btn" class="pb-3 text-pubg-gold border-b-2 border-pubg-gold transition flex items-center gap-2">
+          Player Statistics
+          <span class="text-[10px] font-mono px-1.5 py-0.5 bg-pubg-gold/20 text-pubg-gold rounded">64 Players</span>
+        </button>
+        <button onclick="switchTab('replay')" id="tab-replay-btn" class="pb-3 text-gray-400 hover:text-white border-b-2 border-transparent transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          2D Interactive Replay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ============================================================= -->
+    <!-- TAB 1: PLAYER STATISTICS (OPTION A VISUALIZATION) -->
+    <!-- ============================================================= -->
+    <div id="tab-player-stats" class="space-y-4">
+      
+      <!-- Filter & Controls Toolbar -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-pubg-surface p-3 rounded-lg border border-pubg-border">
+        <div class="flex items-center gap-2 flex-1 max-w-md">
+          <div class="relative w-full">
+            <input 
+              type="text" 
+              placeholder="Search player or team..." 
+              id="playerSearchInput"
+              onkeyup="filterPlayers()"
+              class="w-full pl-9 pr-3 py-1.5 text-xs font-mono bg-pubg-dark border border-pubg-border rounded text-white focus:outline-none focus:border-pubg-gold placeholder-gray-500"
+            />
+            <svg class="w-4 h-4 text-gray-500 absolute left-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Team Filter Dropdown (Tied to Stage Teams) -->
+          <label class="text-xs text-gray-400 font-mono">Team:</label>
+          <select id="teamFilter" onchange="filterPlayers()" class="px-2.5 py-1.5 text-xs font-mono bg-pubg-dark border border-pubg-border rounded text-white focus:outline-none focus:border-pubg-gold">
+            <option value="ALL">All Teams (16)</option>
+            <option value="Twisted Minds">Twisted Minds</option>
+            <option value="17 Gaming">17 Gaming</option>
+            <option value="FaZe Clan">FaZe Clan</option>
+            <option value="Danawa e-sports">Danawa e-sports</option>
+            <option value="Soniqs">Soniqs</option>
+          </select>
+
+          <!-- Match Range Filter (Stage Overview vs Specific Match) -->
+          <label class="text-xs text-gray-400 font-mono ml-2">Matches:</label>
+          <select class="px-2.5 py-1.5 text-xs font-mono bg-pubg-dark border border-pubg-border rounded text-white focus:outline-none focus:border-pubg-gold">
+            <option>All 18 Matches (Cumulative)</option>
+            <option>Match 1 (Erangel)</option>
+            <option>Match 2 (Miramar)</option>
+            <option>Match 3 (Taego)</option>
+            <option>Match 4 (Rondo)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Informative hint banner -->
+      <div class="text-xs text-gray-400 flex items-center justify-between px-1">
+        <span>Showing player metrics for <strong>Grand Finals</strong>. Click on any row to open the <strong>Player Match Breakdown Card</strong>.</span>
+        <span class="font-mono text-pubg-gold">Click table headers to sort ↕</span>
+      </div>
+
+      <!-- Player Statistics Table -->
+      <div class="overflow-x-auto rounded-lg border border-pubg-border bg-pubg-surface custom-scroll shadow-lg">
+        <table class="w-full text-left text-xs" id="playerTable">
+          <thead class="bg-pubg-dark/80 text-gray-400 font-mono uppercase tracking-wider text-[11px] border-b border-pubg-border">
+            <tr>
+              <th class="py-3 px-3 text-center w-12 cursor-pointer hover:text-white">#</th>
+              <th class="py-3 px-4 cursor-pointer hover:text-white">Player</th>
+              <th class="py-3 px-3 cursor-pointer hover:text-white">Team</th>
+              <th class="py-3 px-3 text-center cursor-pointer hover:text-white" title="Matches Played">M</th>
+              <th class="py-3 px-3 text-right cursor-pointer text-pubg-gold font-bold hover:text-yellow-300" title="Total Confirmed Kills">Kills ▾</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Down But Not Out (Knocks)">DBNOs</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Assists">Assists</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white font-bold" title="Total Damage Dealt">Damage</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Average Damage Per Match">Avg Dmg</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Headshot Kills">HS Kills</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Headshot %">HS %</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-white" title="Longest Kill Distance">Longest Kill</th>
+              <th class="py-3 px-4 text-right cursor-pointer hover:text-white" title="Average Survival Time">Avg Survival</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-pubg-border/40 font-mono text-gray-300">
+            
+            <!-- Row 1 -->
+            <tr onclick="openPlayerModal('xmpl', 'Twisted Minds', 34, 28, 14, 5420, 301.1, 10, '29.4%', '482m', '23:45')" class="hover:bg-pubg-card/80 cursor-pointer transition">
+              <td class="py-3 px-3 text-center font-bold text-pubg-gold">1</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                xmpl
+              </td>
+              <td class="py-3 px-3 text-gray-300">Twisted Minds</td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-bold text-pubg-gold text-sm">34</td>
+              <td class="py-3 px-3 text-right text-gray-300">28</td>
+              <td class="py-3 px-3 text-right text-gray-400">14</td>
+              <td class="py-3 px-3 text-right font-bold text-white">5,420</td>
+              <td class="py-3 px-3 text-right text-gray-300">301.1</td>
+              <td class="py-3 px-3 text-right text-gray-400">10</td>
+              <td class="py-3 px-3 text-right text-gray-400">29.4%</td>
+              <td class="py-3 px-3 text-right text-emerald-400">482m</td>
+              <td class="py-3 px-4 text-right text-gray-400">23:45</td>
+            </tr>
+
+            <!-- Row 2 -->
+            <tr onclick="openPlayerModal('shou', '17 Gaming', 31, 26, 12, 4980, 276.7, 8, '25.8%', '395m', '22:10')" class="hover:bg-pubg-card/80 cursor-pointer transition">
+              <td class="py-3 px-3 text-center font-bold text-gray-400">2</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                shou
+              </td>
+              <td class="py-3 px-3 text-gray-300">17 Gaming</td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-bold text-pubg-gold text-sm">31</td>
+              <td class="py-3 px-3 text-right text-gray-300">26</td>
+              <td class="py-3 px-3 text-right text-gray-400">12</td>
+              <td class="py-3 px-3 text-right font-bold text-white">4,980</td>
+              <td class="py-3 px-3 text-right text-gray-300">276.7</td>
+              <td class="py-3 px-3 text-right text-gray-400">8</td>
+              <td class="py-3 px-3 text-right text-gray-400">25.8%</td>
+              <td class="py-3 px-3 text-right text-emerald-400">395m</td>
+              <td class="py-3 px-4 text-right text-gray-400">22:10</td>
+            </tr>
+
+            <!-- Row 3 -->
+            <tr onclick="openPlayerModal('Fexx', 'FaZe Clan', 28, 25, 9, 4650, 258.3, 9, '32.1%', '512m', '21:30')" class="hover:bg-pubg-card/80 cursor-pointer transition">
+              <td class="py-3 px-3 text-center font-bold text-gray-400">3</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                Fexx
+              </td>
+              <td class="py-3 px-3 text-gray-300">FaZe Clan</td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-bold text-pubg-gold text-sm">28</td>
+              <td class="py-3 px-3 text-right text-gray-300">25</td>
+              <td class="py-3 px-3 text-right text-gray-400">9</td>
+              <td class="py-3 px-3 text-right font-bold text-white">4,650</td>
+              <td class="py-3 px-3 text-right text-gray-300">258.3</td>
+              <td class="py-3 px-3 text-right text-gray-400">9</td>
+              <td class="py-3 px-3 text-right text-gray-400">32.1%</td>
+              <td class="py-3 px-3 text-right text-emerald-400">512m</td>
+              <td class="py-3 px-4 text-right text-gray-400">21:30</td>
+            </tr>
+
+            <!-- Row 4 -->
+            <tr onclick="openPlayerModal('seoul', 'Danawa e-sports', 27, 24, 15, 4810, 267.2, 7, '25.9%', '340m', '24:05')" class="hover:bg-pubg-card/80 cursor-pointer transition">
+              <td class="py-3 px-3 text-center font-bold text-gray-400">4</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                seoul
+              </td>
+              <td class="py-3 px-3 text-gray-300">Danawa e-sports</td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-bold text-pubg-gold text-sm">27</td>
+              <td class="py-3 px-3 text-right text-gray-300">24</td>
+              <td class="py-3 px-3 text-right text-gray-400">15</td>
+              <td class="py-3 px-3 text-right font-bold text-white">4,810</td>
+              <td class="py-3 px-3 text-right text-gray-300">267.2</td>
+              <td class="py-3 px-3 text-right text-gray-400">7</td>
+              <td class="py-3 px-3 text-right text-gray-400">25.9%</td>
+              <td class="py-3 px-3 text-right text-emerald-400">340m</td>
+              <td class="py-3 px-4 text-right text-gray-400">24:05</td>
+            </tr>
+
+            <!-- Row 5 -->
+            <tr onclick="openPlayerModal('hwinn', 'Soniqs', 25, 21, 11, 4120, 228.8, 6, '24.0%', '290m', '20:15')" class="hover:bg-pubg-card/80 cursor-pointer transition">
+              <td class="py-3 px-3 text-center font-bold text-gray-400">5</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                hwinn
+              </td>
+              <td class="py-3 px-3 text-gray-300">Soniqs</td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-bold text-pubg-gold text-sm">25</td>
+              <td class="py-3 px-3 text-right text-gray-300">21</td>
+              <td class="py-3 px-3 text-right text-gray-400">11</td>
+              <td class="py-3 px-3 text-right font-bold text-white">4,120</td>
+              <td class="py-3 px-3 text-right text-gray-300">228.8</td>
+              <td class="py-3 px-3 text-right text-gray-400">6</td>
+              <td class="py-3 px-3 text-right text-gray-400">24.0%</td>
+              <td class="py-3 px-3 text-right text-emerald-400">290m</td>
+              <td class="py-3 px-4 text-right text-gray-400">20:15</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- TAB 2: STANDINGS / LEADERBOARD (PREVIEW) -->
+    <!-- ============================================================= -->
+    <div id="tab-leaderboard" class="hidden space-y-4">
+      <div class="overflow-x-auto rounded-lg border border-pubg-border bg-pubg-surface custom-scroll shadow-lg">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-pubg-dark/80 text-gray-400 uppercase tracking-wider text-[11px] border-b border-pubg-border">
+            <tr>
+              <th class="py-3 px-3 text-center w-12">#</th>
+              <th class="py-3 px-4 font-sans">Team</th>
+              <th class="py-3 px-3 text-center">Matches</th>
+              <th class="py-3 px-3 text-right">Kill Pts</th>
+              <th class="py-3 px-3 text-right">Placement Pts</th>
+              <th class="py-3 px-4 text-right text-pubg-gold font-bold text-sm">Total Points</th>
+              <th class="py-3 px-4 text-center">WWCD (Wins)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-pubg-border/40 text-gray-300">
+            <tr class="hover:bg-pubg-card/60">
+              <td class="py-3 px-3 text-center font-bold text-pubg-gold">1</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-purple-500"></span> Twisted Minds
+              </td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-semibold">92</td>
+              <td class="py-3 px-3 text-right font-semibold">68</td>
+              <td class="py-3 px-4 text-right font-bold text-pubg-gold text-base">160</td>
+              <td class="py-3 px-4 text-center text-emerald-400 font-bold">3</td>
+            </tr>
+            <tr class="hover:bg-pubg-card/60">
+              <td class="py-3 px-3 text-center font-bold text-gray-400">2</td>
+              <td class="py-3 px-4 font-sans font-bold text-white flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-500"></span> 17 Gaming
+              </td>
+              <td class="py-3 px-3 text-center text-gray-400">18</td>
+              <td class="py-3 px-3 text-right font-semibold">88</td>
+              <td class="py-3 px-3 text-right font-semibold">65</td>
+              <td class="py-3 px-4 text-right font-bold text-pubg-gold text-base">153</td>
+              <td class="py-3 px-4 text-center text-emerald-400 font-bold">2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- TAB 3: 2D INTERACTIVE REPLAY MAP (WITH KILL FEED SIDEBAR) -->
+    <!-- ============================================================= -->
+    <div id="tab-replay" class="hidden space-y-3">
+      
+      <!-- Match Selector & Time Control Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-pubg-surface p-3 rounded-lg border border-pubg-border text-xs">
+        <div class="flex items-center gap-3">
+          <label class="font-mono text-gray-400">Select Match:</label>
+          <select class="px-2 py-1 bg-pubg-dark border border-pubg-border rounded text-white font-mono">
+            <option>Match 1 — Erangel (28:40)</option>
+            <option>Match 2 — Miramar (31:12)</option>
+            <option>Match 3 — Taego (26:50)</option>
+          </select>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-[11px] font-bold">PHASE 4</span>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="flex items-center gap-2 font-mono">
+          <button class="px-3 py-1 bg-pubg-card hover:bg-pubg-border rounded text-white font-bold">⏮ -10s</button>
+          <button class="px-4 py-1 bg-pubg-gold text-pubg-dark font-extrabold rounded hover:brightness-110 shadow">▶ PLAY</button>
+          <button class="px-3 py-1 bg-pubg-card hover:bg-pubg-border rounded text-white font-bold">+10s ⏭</button>
+          
+          <span class="text-gray-400 ml-2">Speed:</span>
+          <button class="px-2 py-0.5 rounded bg-pubg-card hover:bg-pubg-border text-white">1x</button>
+          <button class="px-2 py-0.5 rounded bg-pubg-gold text-pubg-dark font-bold">2x</button>
+          <button class="px-2 py-0.5 rounded bg-pubg-card hover:bg-pubg-border text-white">5x</button>
+        </div>
+      </div>
+
+      <!-- Main Replay Viewport + Kill Feed Sidebar Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 h-[620px]">
+        
+        <!-- 2D SVG Map (3 Cols) -->
+        <div class="lg:col-span-3 bg-[#0d141e] rounded-lg border border-pubg-border relative overflow-hidden flex flex-col">
+          <!-- Replay SVG Canvas -->
+          <div class="flex-1 relative flex items-center justify-center p-4">
+            <svg viewBox="0 0 816000 816000" class="w-full h-full max-h-[520px] bg-slate-900/60 rounded border border-pubg-border/50">
+              <!-- Grid background -->
+              <defs>
+                <pattern id="grid" width="102000" height="102000" patternUnits="userSpaceOnUse">
+                  <path d="M 102000 0 L 0 0 0 102000" fill="none" stroke="#1e293b" stroke-width="2000"/>
+                </pattern>
+              </defs>
+              <rect width="816000" height="816000" fill="url(#grid)" />
+              
+              <!-- Blue Zone (Shrinking) -->
+              <circle cx="410000" cy="390000" r="280000" fill="none" stroke="#3b82f6" stroke-width="4500" stroke-dasharray="10000, 5000" opacity="0.8" />
+              <!-- White Zone (Next Safe Zone) -->
+              <circle cx="430000" cy="380000" r="160000" fill="#3b82f6" fill-opacity="0.05" stroke="#ffffff" stroke-width="4500" />
+              
+              <!-- Kill Vector Line (Example) -->
+              <line x1="390000" y1="360000" x2="420000" y2="350000" stroke="#ef4444" stroke-width="3500" stroke-linecap="round" />
+
+              <!-- Player Dots (Twisted Minds) -->
+              <circle cx="390000" cy="360000" r="9000" fill="#a855f7" stroke="#ffffff" stroke-width="2000" />
+              <text x="390000" y="345000" fill="#ffffff" font-size="16000" font-family="sans-serif" font-weight="bold" text-anchor="middle">xmpl</text>
+
+              <!-- Victim marker -->
+              <circle cx="420000" cy="350000" r="8000" fill="#ef4444" stroke="#000000" stroke-width="1500" />
+              <text x="420000" y="335000" fill="#ef4444" font-size="14000" font-family="sans-serif" text-anchor="middle">☠ Gustav</text>
+            </svg>
+
+            <!-- Overlay Watermark / Minimap Legend -->
+            <div class="absolute bottom-6 left-6 bg-pubg-dark/90 p-2.5 rounded border border-pubg-border text-[11px] font-mono space-y-1">
+              <div class="text-gray-400">Map: <span class="text-white font-bold">Erangel (8x8 km)</span></div>
+              <div class="flex items-center gap-2"><span class="w-3 h-0.5 bg-blue-500"></span> Blue Zone (Shrinking)</div>
+              <div class="flex items-center gap-2"><span class="w-3 h-0.5 bg-white"></span> White Safe Zone</div>
+            </div>
+          </div>
+
+          <!-- Scrubbing Timeline Slider -->
+          <div class="bg-pubg-dark/90 p-3 border-t border-pubg-border flex items-center gap-3 font-mono text-xs">
+            <span class="text-pubg-gold font-bold">14:22</span>
+            <input type="range" min="0" max="1720" value="862" class="flex-1 accent-pubg-gold cursor-pointer" />
+            <span class="text-gray-400">28:40</span>
+          </div>
+        </div>
+
+        <!-- NEW: Synchronized Kill Feed Sidebar (1 Col) -->
+        <div class="lg:col-span-1 bg-pubg-surface rounded-lg border border-pubg-border flex flex-col overflow-hidden">
+          <div class="p-3 bg-pubg-dark/90 border-b border-pubg-border flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-red-500"></span>
+              Live Kill Feed
+            </span>
+            <span class="text-[10px] font-mono text-gray-400">Click to jump</span>
+          </div>
+
+          <!-- Feed Events List -->
+          <div class="flex-1 overflow-y-auto p-2 space-y-1.5 custom-scroll text-[11px] font-mono">
+            
+            <!-- Event 1 -->
+            <div class="p-2 rounded bg-pubg-card hover:bg-pubg-border/60 border border-pubg-border/50 cursor-pointer transition">
+              <div class="flex items-center justify-between text-gray-400 text-[10px]">
+                <span>14:21 • Phase 4</span>
+                <span class="text-pubg-gold">482m (Headshot)</span>
+              </div>
+              <div class="mt-1 flex items-center justify-between">
+                <span class="text-purple-400 font-bold">TWIS • xmpl</span>
+                <span class="text-gray-500 text-[10px]">Beryl M762</span>
+                <span class="text-red-400 font-bold">FAZE • Gustav</span>
+              </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="p-2 rounded bg-pubg-card/60 hover:bg-pubg-border/60 border border-transparent cursor-pointer transition">
+              <div class="flex items-center justify-between text-gray-400 text-[10px]">
+                <span>13:58 • Phase 4</span>
+                <span class="text-gray-400">125m</span>
+              </div>
+              <div class="mt-1 flex items-center justify-between">
+                <span class="text-blue-400 font-bold">DNW • seoul</span>
+                <span class="text-gray-500 text-[10px]">Mini14</span>
+                <span class="text-yellow-400 font-bold">17 • LilGhost</span>
+              </div>
+            </div>
+
+            <!-- Event 3 (Knock) -->
+            <div class="p-2 rounded bg-pubg-card/40 hover:bg-pubg-border/60 border border-dashed border-gray-700 cursor-pointer transition">
+              <div class="flex items-center justify-between text-gray-400 text-[10px]">
+                <span>13:12 • Phase 3</span>
+                <span class="text-amber-400 font-bold">KNOCKED (DBNO)</span>
+              </div>
+              <div class="mt-1 flex items-center justify-between">
+                <span class="text-red-400 font-bold">FAZE • Fexx</span>
+                <span class="text-gray-500 text-[10px]">Grenade</span>
+                <span class="text-cyan-400 font-bold">SQ • TGLTN</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================= -->
+  <!-- PLAYER DRILL-DOWN CARD / MODAL (OPTION A) -->
+  <!-- ============================================================= -->
+  <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-pubg-surface border border-pubg-border rounded-xl max-w-2xl w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-pubg-border pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 id="modalPlayerName" class="text-2xl font-black text-white">xmpl</h2>
+            <span id="modalTeamName" class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">Twisted Minds</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Stage Performance Breakdown • PGC 2024 Grand Finals</p>
+        </div>
+        <button onclick="closePlayerModal()" class="text-gray-400 hover:text-white p-1 rounded-md hover:bg-pubg-card transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Highlight Stat Badges Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+        <div class="bg-pubg-dark p-3 rounded-lg border border-pubg-border">
+          <div class="text-[10px] uppercase text-gray-400">Total Kills</div>
+          <div id="modalKills" class="text-xl font-black text-pubg-gold mt-1">34</div>
+        </div>
+        <div class="bg-pubg-dark p-3 rounded-lg border border-pubg-border">
+          <div class="text-[10px] uppercase text-gray-400">Total Damage</div>
+          <div id="modalDamage" class="text-xl font-black text-white mt-1">5,420</div>
+        </div>
+        <div class="bg-pubg-dark p-3 rounded-lg border border-pubg-border">
+          <div class="text-[10px] uppercase text-gray-400">Knocks (DBNO)</div>
+          <div id="modalKnocks" class="text-xl font-black text-cyan-400 mt-1">28</div>
+        </div>
+        <div class="bg-pubg-dark p-3 rounded-lg border border-pubg-border">
+          <div class="text-[10px] uppercase text-gray-400">Headshot %</div>
+          <div id="modalHsRate" class="text-xl font-black text-emerald-400 mt-1">29.4%</div>
+        </div>
+      </div>
+
+      <!-- Match-by-Match Breakdown Table -->
+      <div>
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-gray-400 mb-2">Match by Match Log</h3>
+        <div class="overflow-x-auto rounded border border-pubg-border max-h-48 custom-scroll">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-pubg-dark text-[10px] text-gray-400 uppercase">
+              <tr>
+                <th class="py-2 px-3">Match</th>
+                <th class="py-2 px-3">Map</th>
+                <th class="py-2 px-3 text-right">Kills</th>
+                <th class="py-2 px-3 text-right">Damage</th>
+                <th class="py-2 px-3 text-right">Assists</th>
+                <th class="py-2 px-3 text-right">Survival</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-pubg-border/30 text-gray-300">
+              <tr class="hover:bg-pubg-card/40">
+                <td class="py-2 px-3 font-bold text-white">#1</td>
+                <td class="py-2 px-3 text-gray-400">Erangel</td>
+                <td class="py-2 px-3 text-right text-pubg-gold font-bold">4</td>
+                <td class="py-2 px-3 text-right">582</td>
+                <td class="py-2 px-3 text-right text-gray-400">1</td>
+                <td class="py-2 px-3 text-right text-gray-400">26:12</td>
+              </tr>
+              <tr class="hover:bg-pubg-card/40">
+                <td class="py-2 px-3 font-bold text-white">#2</td>
+                <td class="py-2 px-3 text-gray-400">Miramar</td>
+                <td class="py-2 px-3 text-right text-pubg-gold font-bold">2</td>
+                <td class="py-2 px-3 text-right">310</td>
+                <td class="py-2 px-3 text-right text-gray-400">2</td>
+                <td class="py-2 px-3 text-right text-gray-400">21:40</td>
+              </tr>
+              <tr class="hover:bg-pubg-card/40">
+                <td class="py-2 px-3 font-bold text-white">#3</td>
+                <td class="py-2 px-3 text-gray-400">Taego</td>
+                <td class="py-2 px-3 text-right text-pubg-gold font-bold">5</td>
+                <td class="py-2 px-3 text-right">720</td>
+                <td class="py-2 px-3 text-right text-gray-400">0</td>
+                <td class="py-2 px-3 text-right text-gray-400">28:05</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript logic for mockup -->
+  <script>
+    function switchTab(tabId) {
+      document.getElementById('tab-leaderboard').classList.add('hidden');
+      document.getElementById('tab-player-stats').classList.add('hidden');
+      document.getElementById('tab-replay').classList.add('hidden');
+
+      document.getElementById('tab-leaderboard-btn').className = 'pb-3 text-gray-400 hover:text-white border-b-2 border-transparent transition';
+      document.getElementById('tab-player-stats-btn').className = 'pb-3 text-gray-400 hover:text-white border-b-2 border-transparent transition flex items-center gap-2';
+      document.getElementById('tab-replay-btn').className = 'pb-3 text-gray-400 hover:text-white border-b-2 border-transparent transition flex items-center gap-1.5';
+
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      const activeBtn = document.getElementById('tab-' + tabId + '-btn');
+      activeBtn.className = 'pb-3 text-pubg-gold border-b-2 border-pubg-gold transition flex items-center gap-2';
+    }
+
+    function openPlayerModal(name, team, kills, knocks, assists, dmg, avgDmg, hsKills, hsRate, longest, survival) {
+      document.getElementById('modalPlayerName').innerText = name;
+      document.getElementById('modalTeamName').innerText = team;
+      document.getElementById('modalKills').innerText = kills;
+      document.getElementById('modalDamage').innerText = Number(dmg).toLocaleString();
+      document.getElementById('modalKnocks').innerText = knocks;
+      document.getElementById('modalHsRate').innerText = hsRate;
+      document.getElementById('playerModal').classList.remove('hidden');
+    }
+
+    function closePlayerModal() {
+      document.getElementById('playerModal').classList.add('hidden');
+    }
+
+    function filterPlayers() {
+      const search = document.getElementById('playerSearchInput').value.toLowerCase();
+      const team = document.getElementById('teamFilter').value;
+      const rows = document.querySelectorAll('#playerTable tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const matchesSearch = text.includes(search);
+        const matchesTeam = (team === 'ALL' || text.includes(team.toLowerCase()));
+        if (matchesSearch && matchesTeam) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
