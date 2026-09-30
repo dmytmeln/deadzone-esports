@@ -128,42 +128,54 @@ deadzone-esports/
 
 ---
 
-## 5. Implementation Roadmap
+## 5. Non-Functional Requirements & Technical Constraints
 
-### Phase 1: Functional Core & SUPER Engine (`:core:domain`)
+All technical constraints previously tracked across requirements are formalized here:
+
+* **NFR-1 (Compiler-Enforced Hexagonal Architecture)**:
+  * `:core` module contains zero Spring, zero JPA, and zero network/filesystem dependencies.
+  * All domain models (`Tournament`, `Stage`, `Match`, `Team`, `Player`, `MatchReplay`) are immutable Java 27 `record`s.
+  * All scoring rules, tie-breaker solvers, and telemetry stream reducers are 100% pure functions.
+* **NFR-2 (Performance Targets)**:
+  * Telemetry ingestion and reduction of a 40MB file (`telemetry.json` / `.json.gz`): $\le 3.0$ seconds via Jackson Streaming [`FR-3.3`].
+  * Standings, Team Stats, and Player Stats REST response latency: $\le 100$ms under normal load [`FR-4.4`, `FR-5.1`, `FR-6.1`].
+  * 2D Replay canvas rendering: $\ge 60$ FPS in modern browsers [`FR-8.1` - `FR-8.8`].
+* **NFR-3 (Data Storage & Migration)**:
+  * Relational persistence via PostgreSQL 16+ using Spring Data JPA.
+  * Database schema and DDL managed strictly via Liquibase migrations (`src/main/resources/db/changelog`).
+
+---
+
+## 6. Implementation Roadmap & Traceability
+
+### Phase 1: Functional Core & Scoring Rules (`:core:domain`)
 1. Define immutable domain models: `Team`, `Player`, `MatchResult`, `TeamMatchScore`.
-2. Implement pure `SuperRuleEngine` and `TieBreakerSolver`.
-3. Write comprehensive, data-driven JUnit 5 tests modeling real PGC tie-break situations (zero mocks).
+2. Implement pure `SuperRuleEngine` and `TieBreakerSolver` [`FR-4.1`, `FR-4.2`].
+3. Implement `SmashRuleEngine` with threshold tracking and win condition [`FR-4.3`].
+4. Write comprehensive, data-driven JUnit 5 tests modeling real PGC tie-break situations (zero mocks).
 
 ### Phase 2: Telemetry Parser & Stream Reducer (`:core:domain`)
 1. Define raw telemetry records (`PlayerKnocked`, `PlayerKilled`, `DamageDealt`, `CircleShrunk`).
-2. Build pure `MatchEventReducer` to extract:
+2. Build pure `MatchEventReducer` to stream and extract [`FR-3.2`, `FR-3.3`]:
    * Team eliminations and final placements.
    * Circle phases (White safe zone & Blue zone coordinates + radius).
-   * Kill vectors (killer location, victim location, weapon name).
+   * Kill vectors (killer location, victim location, weapon name, knocks).
 
 ### Phase 3: Application Use Cases & Infrastructure Adapters (`:core:application` & `:infrastructure`)
 1. Define Inbound/Outbound ports (`TournamentRepositoryPort`, `MatchTelemetryPort`).
-2. Configure PostgreSQL via Docker Compose (`docker-compose.yml`).
+2. Configure PostgreSQL via Docker Compose (`docker-compose.yml`) with Liquibase migrations.
 3. Build Spring Data JPA adapter with clean `Domain Record <-> JPA Entity` mappers.
-4. Implement `BundledFixtureAdapter` (loading 3 pre-configured PGC Grand Finals matches).
-5. Build REST endpoints:
-   * `POST /api/matches/upload` (Upload telemetry JSON).
-   * `GET /api/tournaments/{id}/standings` (Calculated SUPER leaderboard).
-   * `GET /api/matches/{id}/replay` (2D circle phases & kill events).
+4. Implement `BundledFixtureAdapter` (loading 3 pre-packaged PGC Grand Finals matches) [`FR-3.5`].
+5. Implement REST endpoints per [`docs/api-specification.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/api-specification.md).
 
 ### Phase 4: React UI & 2D SVG Map (`frontend`)
-1. Setup Vite + React + TypeScript + Tailwind CSS.
-2. Build **SUPER Leaderboard Component**:
-   * Rank, Team Name, Matches Played, Kill Points, Placement Points, Total Points.
-   * Tie-breaker indicators and breakdown.
-3. Build **2D Interactive Replay Component**:
-   * Erangel / Miramar map image background.
-   * Scaled `<svg viewBox="0 0 816000 816000">`.
-   * Circles (`<circle>` for White and Blue zones).
-   * Kill markers (`<line>` and death icons with hover tooltips).
-   * Phase slider (Phase 1 through Phase 8) to scrub through match progression.
+1. Setup Vite + React + TypeScript + Tailwind CSS using design tokens from [`docs/ui-ux-specification.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/ui-ux-specification.md).
+2. Build Tournament Discovery Hub & Stages Roadmap [`FR-1.1`, `FR-1.2`, `FR-2.3`].
+3. Build Leaderboard Component with projected vs locked cut-offs and rank deltas [`FR-4.4` - `FR-4.6`].
+4. Build Team & Player Stats tables and Player Drill-Down Modal with Teammate Switcher [`FR-5.1` - `FR-6.3`].
+5. Build 2D Interactive Replay with synchronized kill feed, timeline slider, and pulse beacons [`FR-8.1` - `FR-8.8`].
 
 ### Phase 5 (Future Milestone): Live Mode
 * Add a `KraftonApiClient` outbound adapter and a scheduled poller.
 * Add Spring WebSockets / SSE for live leaderboard pushes.
+
