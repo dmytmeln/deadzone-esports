@@ -7,7 +7,9 @@
 > • Technical Architecture & NFRs: [`docs/deadzone-esports-architecture.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/deadzone-esports-architecture.md)  
 > • REST API Specification: [`docs/api-specification.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/api-specification.md)  
 > • UI/UX & Design Tokens: [`docs/ui-ux-specification.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/ui-ux-specification.md)  
-> • Interactive UI Prototype: [`docs/ui-mockup.html`](file:///D:/MyProjects/Java/deadzone-esports/docs/ui-mockup.html)
+> • Interactive UI Prototype: [`docs/ui-mockup.html`](file:///D:/MyProjects/Java/deadzone-esports/docs/ui-mockup.html)  
+> • PUBG Esports Domain Rules: [`docs/pubg-esports-domain-rules.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/pubg-esports-domain-rules.md)  
+> • Telemetry Reducer Contract: [`docs/pubg-telemetry-event-contract.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/pubg-telemetry-event-contract.md)
 
 ---
 
