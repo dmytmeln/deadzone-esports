@@ -1,0 +1,15 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':domain')
+
+    implementation 'org.springframework:spring-tx'
+    implementation 'io.micrometer:micrometer-core'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testImplementation 'org.assertj:assertj-core:3.27.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}

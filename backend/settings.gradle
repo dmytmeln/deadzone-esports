@@ -1,0 +1,5 @@
+rootProject.name = 'deadzone-backend'
+
+include ':domain'
+include ':application'
+include ':infrastructure'
