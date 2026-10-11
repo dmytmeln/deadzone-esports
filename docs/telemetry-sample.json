@@ -1,0 +1,1027 @@
+[
+  {
+    "_D": "2024-11-20T14:00:00.0000000Z",
+    "_T": "LogMatchDefinition",
+    "MatchId": "match.bro.official.pc-2024-11-20.eu.custom.squad.d3a8e10b-4c56-47b2-9a81-7f8e3b2a1c09",
+    "SeasonState": "progress",
+    "PingQuality": "low",
+    "common": {
+      "isGame": 0.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:02:30.0000000Z",
+    "_T": "LogMatchStart",
+    "mapName": "Baltic_Main",
+    "weatherId": "Clear",
+    "cameraViewBehaviour": "FPP",
+    "teamSize": 4,
+    "isCustomGame": true,
+    "isEventMode": false,
+    "blueZoneCustomOptions": "[{\"phaseNum\":0,\"startDelay\":120,\"warningDuration\":300,\"releaseDuration\":300,\"poisonGasDamagePerSecond\":0.4,\"radiusRate\":0.35,\"spreadRatio\":0.5,\"landRatio\":0.55,\"circleAlgorithm\":0},{\"phaseNum\":1,\"startDelay\":0,\"warningDuration\":180,\"releaseDuration\":120,\"poisonGasDamagePerSecond\":0.6,\"radiusRate\":0.55,\"spreadRatio\":0.5,\"landRatio\":0.55,\"circleAlgorithm\":0}]",
+    "characters": [
+      {
+        "character": {
+          "name": "BatulinS",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+          "ranking": 0,
+          "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "WeapNagantM1895_C",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Lu",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 413000.0, "y": 297800.0, "z": 2410.0 },
+          "ranking": 0,
+          "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Perfect1ks",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 412200.0, "y": 298400.0, "z": 2390.0 },
+          "ranking": 0,
+          "accountId": "account.e2b1c4d3f5a6b7c8d9e0123456789abc",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "xmpl",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 412900.0, "y": 298700.0, "z": 2405.0 },
+          "ranking": 0,
+          "accountId": "account.c1a2b3d4e5f60718293a4b5c6d7e8f90",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Gustav",
+          "teamId": 7,
+          "health": 100.0,
+          "location": { "x": 416500.1, "y": 301200.0, "z": 2350.0 },
+          "ranking": 0,
+          "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Fexx",
+          "teamId": 7,
+          "health": 100.0,
+          "location": { "x": 416200.0, "y": 301050.0, "z": 2340.0 },
+          "ranking": 0,
+          "accountId": "account.7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "curexi",
+          "teamId": 7,
+          "health": 100.0,
+          "location": { "x": 416750.0, "y": 301350.0, "z": 2355.0 },
+          "ranking": 0,
+          "accountId": "account.4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "jeemzz",
+          "teamId": 7,
+          "health": 100.0,
+          "location": { "x": 416400.0, "y": 301500.0, "z": 2360.0 },
+          "ranking": 0,
+          "accountId": "account.8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "TGLTN",
+          "teamId": 5,
+          "health": 100.0,
+          "location": { "x": 389200.0, "y": 341000.0, "z": 1850.0 },
+          "ranking": 0,
+          "accountId": "account.11223344556677889900aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "hwinn",
+          "teamId": 5,
+          "health": 100.0,
+          "location": { "x": 389100.0, "y": 341150.0, "z": 1845.0 },
+          "ranking": 0,
+          "accountId": "account.22334455667788990011aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Fuzzface",
+          "teamId": 2,
+          "health": 100.0,
+          "location": { "x": 394500.0, "y": 338900.0, "z": 1920.0 },
+          "ranking": 0,
+          "accountId": "account.33445566778899001122aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Kickstart",
+          "teamId": 12,
+          "health": 100.0,
+          "location": { "x": 391800.0, "y": 340100.0, "z": 1880.0 },
+          "ranking": 0,
+          "accountId": "account.44556677889900112233aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "vard",
+          "teamId": 8,
+          "health": 100.0,
+          "location": { "x": 395100.0, "y": 345000.0, "z": 1780.0 },
+          "ranking": 0,
+          "accountId": "account.55667788990011223344aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "mxey",
+          "teamId": 2,
+          "health": 100.0,
+          "location": { "x": 394800.0, "y": 339100.0, "z": 1915.0 },
+          "ranking": 0,
+          "accountId": "account.66778899001122334455aabbccddeeff",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      }
+    ],
+    "common": {
+      "isGame": 0.1
+    }
+  },
+  {
+    "_D": "2024-11-20T14:05:00.0000000Z",
+    "_T": "LogGameStatePeriodic",
+    "gameState": {
+      "elapsedTime": 150,
+      "numAliveTeams": 16,
+      "numJoinPlayers": 64,
+      "numStartPlayers": 64,
+      "numAlivePlayers": 64,
+      "safetyZonePosition": { "x": 420000.0, "y": 380000.0, "z": 0.0 },
+      "safetyZoneRadius": 200000.0,
+      "poisonGasWarningPosition": { "x": 408000.0, "y": 408000.0, "z": 0.0 },
+      "poisonGasWarningRadius": 408000.0,
+      "redZonePosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "redZoneRadius": 0.0,
+      "blackZonePosition": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "blackZoneRadius": 0.0
+    },
+    "common": {
+      "isGame": 1.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:14:10.1000000Z",
+    "_T": "LogPlayerPosition",
+    "character": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 100.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "elapsedTime": 700.1,
+    "numAlivePlayers": 64,
+    "common": {
+      "isGame": 2.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:15:30.2000000Z",
+    "_T": "LogPlayerTakeDamage",
+    "attackId": 1420,
+    "attacker": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 100.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 100.0,
+      "location": { "x": 416500.1, "y": 301200.0, "z": 2350.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageTypeCategory": "Damage_Gun",
+    "damageReason": "TorsoShot",
+    "damage": 38.5,
+    "damageCauserName": "WeapBerylM762_C",
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:15:32.4120000Z",
+    "_T": "LogPlayerTakeDamage",
+    "attackId": 1421,
+    "attacker": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 100.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 61.5,
+      "location": { "x": 416500.1, "y": 301200.0, "z": 2350.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageTypeCategory": "Damage_Gun",
+    "damageReason": "ArmShot",
+    "damage": 25.5,
+    "damageCauserName": "WeapBerylM762_C",
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:15:35.8900000Z",
+    "_T": "LogPlayerMakeGroggy",
+    "attackId": 1425,
+    "attacker": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 100.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 0.0,
+      "location": { "x": 416500.1, "y": 301200.0, "z": 2350.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageReason": "HeadShot",
+    "damageTypeCategory": "Damage_Gun",
+    "damageCauserName": "WeapBerylM762_C",
+    "damageCauserAdditionalInfo": [],
+    "victimWeapon": "WeapMini14_C",
+    "victimWeaponAdditionalInfo": [],
+    "distance": 4985.3,
+    "isAttackerInVehicle": false,
+    "dBNOId": 101,
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:15:45.0000000Z",
+    "_T": "LogPlayerRevive",
+    "reviver": {
+      "name": "Fexx",
+      "teamId": 7,
+      "health": 100.0,
+      "location": { "x": 416490.0, "y": 301210.0, "z": 2350.0 },
+      "ranking": 0,
+      "accountId": "account.7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 10.0,
+      "location": { "x": 416500.1, "y": 301200.0, "z": 2350.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "dBNOId": 101,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:16:10.5000000Z",
+    "_T": "LogPlayerMakeGroggy",
+    "attackId": 1435,
+    "attacker": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 95.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 0.0,
+      "location": { "x": 416480.0, "y": 301210.0, "z": 2345.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageReason": "HeadShot",
+    "damageTypeCategory": "Damage_Gun",
+    "damageCauserName": "WeapBerylM762_C",
+    "damageCauserAdditionalInfo": [],
+    "victimWeapon": "WeapMini14_C",
+    "victimWeaponAdditionalInfo": [],
+    "distance": 4985.3,
+    "isAttackerInVehicle": false,
+    "dBNOId": 102,
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:16:18.1120000Z",
+    "_T": "LogPlayerKillV2",
+    "attackId": 1440,
+    "dBNOId": 102,
+    "victim": {
+      "name": "Gustav",
+      "teamId": 7,
+      "health": 0.0,
+      "location": { "x": 416480.0, "y": 301210.0, "z": 2345.0 },
+      "ranking": 0,
+      "accountId": "account.b5c2e301d4e5f6a7b8901234567890cd",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victimWeapon": "WeapMini14_C",
+    "victimWeaponAdditionalInfo": [],
+    "dBNOMaker": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 95.0,
+      "location": { "x": 412530.2, "y": 298140.5, "z": 2400.0 },
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab"
+    },
+    "dBNODamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 4985.3,
+      "isThroughPenetrableWall": false
+    },
+    "finisher": {
+      "name": "Lu",
+      "teamId": 3,
+      "health": 100.0,
+      "location": { "x": 413000.0, "y": 297800.0, "z": 2410.0 },
+      "ranking": 0,
+      "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678"
+    },
+    "finishDamageInfo": {
+      "damageReason": "TorsoShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapMini14_C",
+      "distance": 4510.0,
+      "isThroughPenetrableWall": false
+    },
+    "killer": {
+      "name": "BatulinS",
+      "teamId": 3,
+      "health": 95.0,
+      "ranking": 0,
+      "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab"
+    },
+    "killerDamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 4985.3,
+      "isThroughPenetrableWall": false
+    },
+    "assists_AccountId": [
+      "account.f9e4c102a1b2c3d4e5f6789012345678"
+    ],
+    "teamKillers_AccountId": [],
+    "isSuicide": false,
+    "common": {
+      "isGame": 2.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:18:02.1000000Z",
+    "_T": "LogPlayerMakeGroggy",
+    "attackId": 1460,
+    "attacker": {
+      "name": "TGLTN",
+      "teamId": 5,
+      "health": 100.0,
+      "location": { "x": 389200.0, "y": 341000.0, "z": 1850.0 },
+      "ranking": 0,
+      "accountId": "account.11223344556677889900aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "Kickstart",
+      "teamId": 12,
+      "health": 0.0,
+      "location": { "x": 391800.0, "y": 340100.0, "z": 1880.0 },
+      "ranking": 0,
+      "accountId": "account.44556677889900112233aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageReason": "TorsoShot",
+    "damageTypeCategory": "Damage_Gun",
+    "damageCauserName": "WeapMini14_C",
+    "damageCauserAdditionalInfo": [],
+    "victimWeapon": "WeapM416_C",
+    "victimWeaponAdditionalInfo": [],
+    "distance": 2750.0,
+    "isAttackerInVehicle": false,
+    "dBNOId": 103,
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 3.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:18:15.3000000Z",
+    "_T": "LogPlayerKillV2",
+    "attackId": 1472,
+    "dBNOId": 103,
+    "victim": {
+      "name": "Kickstart",
+      "teamId": 12,
+      "health": 0.0,
+      "location": { "x": 391800.0, "y": 340100.0, "z": 1880.0 },
+      "ranking": 16,
+      "accountId": "account.44556677889900112233aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victimWeapon": "WeapM416_C",
+    "victimWeaponAdditionalInfo": [],
+    "dBNOMaker": {
+      "name": "TGLTN",
+      "teamId": 5,
+      "health": 100.0,
+      "location": { "x": 389200.0, "y": 341000.0, "z": 1850.0 },
+      "ranking": 0,
+      "accountId": "account.11223344556677889900aabbccddeeff"
+    },
+    "dBNODamageInfo": {
+      "damageReason": "TorsoShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapMini14_C",
+      "distance": 2750.0,
+      "isThroughPenetrableWall": false
+    },
+    "finisher": {
+      "name": "Fuzzface",
+      "teamId": 2,
+      "health": 90.0,
+      "location": { "x": 394500.0, "y": 338900.0, "z": 1920.0 },
+      "ranking": 0,
+      "accountId": "account.33445566778899001122aabbccddeeff"
+    },
+    "finishDamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 2950.0,
+      "isThroughPenetrableWall": false
+    },
+    "killer": {
+      "name": "Fuzzface",
+      "teamId": 2,
+      "health": 90.0,
+      "ranking": 0,
+      "accountId": "account.33445566778899001122aabbccddeeff"
+    },
+    "killerDamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 2950.0,
+      "isThroughPenetrableWall": false
+    },
+    "assists_AccountId": [
+      "account.11223344556677889900aabbccddeeff"
+    ],
+    "teamKillers_AccountId": [],
+    "isSuicide": false,
+    "common": {
+      "isGame": 3.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:21:05.1000000Z",
+    "_T": "LogPlayerMakeGroggy",
+    "attackId": 1490,
+    "attacker": {
+      "name": "hwinn",
+      "teamId": 5,
+      "health": 100.0,
+      "location": { "x": 389100.0, "y": 341150.0, "z": 1845.0 },
+      "ranking": 0,
+      "accountId": "account.22334455667788990011aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "vard",
+      "teamId": 8,
+      "health": 0.0,
+      "location": { "x": 395100.0, "y": 345000.0, "z": 1780.0 },
+      "ranking": 0,
+      "accountId": "account.55667788990011223344aabbccddeeff",
+      "isInBlueZone": true,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageReason": "HeadShot",
+    "damageTypeCategory": "Damage_Gun",
+    "damageCauserName": "WeapBerylM762_C",
+    "damageCauserAdditionalInfo": [],
+    "victimWeapon": "WeapBerylM762_C",
+    "victimWeaponAdditionalInfo": [],
+    "distance": 7080.0,
+    "isAttackerInVehicle": false,
+    "dBNOId": 104,
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 4.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:21:25.9000000Z",
+    "_T": "LogPlayerKillV2",
+    "attackId": 0,
+    "dBNOId": 104,
+    "victim": {
+      "name": "vard",
+      "teamId": 8,
+      "health": 0.0,
+      "location": { "x": 395050.0, "y": 345020.0, "z": 1775.0 },
+      "ranking": 15,
+      "accountId": "account.55667788990011223344aabbccddeeff",
+      "isInBlueZone": true,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victimWeapon": "WeapBerylM762_C",
+    "victimWeaponAdditionalInfo": [],
+    "dBNOMaker": {
+      "name": "hwinn",
+      "teamId": 5,
+      "health": 100.0,
+      "location": { "x": 389100.0, "y": 341150.0, "z": 1845.0 },
+      "ranking": 0,
+      "accountId": "account.22334455667788990011aabbccddeeff"
+    },
+    "dBNODamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 7080.0,
+      "isThroughPenetrableWall": false
+    },
+    "finisher": null,
+    "finishDamageInfo": {
+      "damageReason": "None",
+      "damageTypeCategory": "Damage_BlueZone",
+      "damageCauserName": "",
+      "distance": 0.0,
+      "isThroughPenetrableWall": false
+    },
+    "killer": {
+      "name": "hwinn",
+      "teamId": 5,
+      "health": 100.0,
+      "ranking": 0,
+      "accountId": "account.22334455667788990011aabbccddeeff"
+    },
+    "killerDamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 7080.0,
+      "isThroughPenetrableWall": false
+    },
+    "assists_AccountId": [],
+    "teamKillers_AccountId": [],
+    "isSuicide": false,
+    "common": {
+      "isGame": 4.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:26:00.0000000Z",
+    "_T": "LogPhaseChange",
+    "phase": 6,
+    "elapsedTime": 1410.0,
+    "common": {
+      "isGame": 6.0
+    }
+  },
+  {
+    "_D": "2024-11-20T14:31:40.0000000Z",
+    "_T": "LogPlayerMakeGroggy",
+    "attackId": 1820,
+    "attacker": {
+      "name": "Lu",
+      "teamId": 3,
+      "health": 85.0,
+      "location": { "x": 394200.0, "y": 339000.0, "z": 1920.0 },
+      "ranking": 0,
+      "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victim": {
+      "name": "mxey",
+      "teamId": 2,
+      "health": 0.0,
+      "location": { "x": 394800.0, "y": 339100.0, "z": 1915.0 },
+      "ranking": 0,
+      "accountId": "account.66778899001122334455aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "damageReason": "HeadShot",
+    "damageTypeCategory": "Damage_Gun",
+    "damageCauserName": "WeapBerylM762_C",
+    "damageCauserAdditionalInfo": [],
+    "victimWeapon": "WeapM416_C",
+    "victimWeaponAdditionalInfo": [],
+    "distance": 608.2,
+    "isAttackerInVehicle": false,
+    "dBNOId": 105,
+    "isThroughPenetrableWall": false,
+    "common": {
+      "isGame": 7.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:31:42.5000000Z",
+    "_T": "LogPlayerKillV2",
+    "attackId": 1825,
+    "dBNOId": 105,
+    "victim": {
+      "name": "mxey",
+      "teamId": 2,
+      "health": 0.0,
+      "location": { "x": 394800.0, "y": 339100.0, "z": 1915.0 },
+      "ranking": 2,
+      "accountId": "account.66778899001122334455aabbccddeeff",
+      "isInBlueZone": false,
+      "isInRedZone": false,
+      "zone": []
+    },
+    "victimWeapon": "WeapM416_C",
+    "victimWeaponAdditionalInfo": [],
+    "dBNOMaker": {
+      "name": "Lu",
+      "teamId": 3,
+      "health": 85.0,
+      "location": { "x": 394200.0, "y": 339000.0, "z": 1920.0 },
+      "ranking": 0,
+      "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678"
+    },
+    "dBNODamageInfo": {
+      "damageReason": "HeadShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 608.2,
+      "isThroughPenetrableWall": false
+    },
+    "finisher": {
+      "name": "Lu",
+      "teamId": 3,
+      "health": 85.0,
+      "location": { "x": 394200.0, "y": 339000.0, "z": 1920.0 },
+      "ranking": 0,
+      "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678"
+    },
+    "finishDamageInfo": {
+      "damageReason": "TorsoShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 608.2,
+      "isThroughPenetrableWall": false
+    },
+    "killer": {
+      "name": "Lu",
+      "teamId": 3,
+      "health": 85.0,
+      "ranking": 0,
+      "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678"
+    },
+    "killerDamageInfo": {
+      "damageReason": "TorsoShot",
+      "damageTypeCategory": "Damage_Gun",
+      "damageCauserName": "WeapBerylM762_C",
+      "distance": 608.2,
+      "isThroughPenetrableWall": false
+    },
+    "assists_AccountId": [],
+    "teamKillers_AccountId": [],
+    "isSuicide": false,
+    "common": {
+      "isGame": 7.5
+    }
+  },
+  {
+    "_D": "2024-11-20T14:32:00.0000000Z",
+    "_T": "LogMatchEnd",
+    "characters": [
+      {
+        "character": {
+          "name": "BatulinS",
+          "teamId": 3,
+          "health": 95.0,
+          "location": { "x": 394100.0, "y": 339050.0, "z": 1920.0 },
+          "ranking": 1,
+          "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Lu",
+          "teamId": 3,
+          "health": 85.0,
+          "location": { "x": 394200.0, "y": 339000.0, "z": 1920.0 },
+          "ranking": 1,
+          "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "Perfect1ks",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 394000.0, "y": 339100.0, "z": 1918.0 },
+          "ranking": 1,
+          "accountId": "account.e2b1c4d3f5a6b7c8d9e0123456789abc",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapM416_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      },
+      {
+        "character": {
+          "name": "xmpl",
+          "teamId": 3,
+          "health": 100.0,
+          "location": { "x": 394250.0, "y": 338950.0, "z": 1922.0 },
+          "ranking": 1,
+          "accountId": "account.c1a2b3d4e5f60718293a4b5c6d7e8f90",
+          "isInBlueZone": false,
+          "isInRedZone": false,
+          "zone": []
+        },
+        "primaryWeaponFirst": "WeapBerylM762_C",
+        "primaryWeaponSecond": "WeapMini14_C",
+        "secondaryWeapon": "",
+        "spawnKitIndex": 0
+      }
+    ],
+    "gameResultOnFinished": {
+      "results": [
+        {
+          "rank": 1,
+          "gameResult": "win",
+          "teamId": 3,
+          "accountId": "account.a8d9f102b3c4d5e6f7890123456789ab",
+          "stats": {
+            "killCount": 2,
+            "distanceOnFoot": 3410.5,
+            "distanceOnSwim": 0.0,
+            "distanceOnVehicle": 4510.0,
+            "distanceOnParachute": 850.0,
+            "distanceOnFreefall": 1200.0
+          }
+        },
+        {
+          "rank": 1,
+          "gameResult": "win",
+          "teamId": 3,
+          "accountId": "account.f9e4c102a1b2c3d4e5f6789012345678",
+          "stats": {
+            "killCount": 1,
+            "distanceOnFoot": 3150.2,
+            "distanceOnSwim": 0.0,
+            "distanceOnVehicle": 4480.0,
+            "distanceOnParachute": 840.0,
+            "distanceOnFreefall": 1190.0
+          }
+        },
+        {
+          "rank": 1,
+          "gameResult": "win",
+          "teamId": 3,
+          "accountId": "account.e2b1c4d3f5a6b7c8d9e0123456789abc",
+          "stats": {
+            "killCount": 0,
+            "distanceOnFoot": 2980.0,
+            "distanceOnSwim": 0.0,
+            "distanceOnVehicle": 4510.0,
+            "distanceOnParachute": 850.0,
+            "distanceOnFreefall": 1200.0
+          }
+        },
+        {
+          "rank": 1,
+          "gameResult": "win",
+          "teamId": 3,
+          "accountId": "account.c1a2b3d4e5f60718293a4b5c6d7e8f90",
+          "stats": {
+            "killCount": 0,
+            "distanceOnFoot": 3200.4,
+            "distanceOnSwim": 0.0,
+            "distanceOnVehicle": 4510.0,
+            "distanceOnParachute": 850.0,
+            "distanceOnFreefall": 1200.0
+          }
+        }
+      ]
+    },
+    "common": {
+      "isGame": 8.0
+    }
+  }
+]

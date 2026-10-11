@@ -3,7 +3,8 @@
 > **Document Version**: 1.0.0  
 > **Status**: Draft / Under Review against Real Telemetry  
 > **Target System**: `deadzone-esports` Ingestion Engine & Pure Domain Core  
-> **Related Document**: [`docs/pubg-esports-domain-rules.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/pubg-esports-domain-rules.md)
+> **Related Document**: [`docs/pubg-esports-domain-rules.md`](file:///D:/MyProjects/Java/deadzone-esports/docs/pubg-esports-domain-rules.md)  
+> **Reference Fixture**: [`docs/telemetry-sample.json`](file:///D:/MyProjects/Java/deadzone-esports/docs/telemetry-sample.json)
 
 ---
 
