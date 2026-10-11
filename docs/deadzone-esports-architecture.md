@@ -12,7 +12,7 @@
 
 * **Functional Core**: 100% pure Java 27 (`record`s, pure functions, sealed types). Zero Spring, zero JPA, zero network/disk I/O, zero mocks needed in tests.
 * **Imperative Shell**: The outer application orchestration that loads data via inbound ports, invokes the functional core, persists results via outbound ports, and coordinates side effects.
-* **Hexagonal Architecture**: Enforced at the compiler level using a multi-project Gradle build (`:core` and `:infrastructure` inside `backend/`).
+* **Hexagonal Architecture**: Enforced at the compiler level using a multi-project Gradle build (`:domain`, `:application`, and `:infrastructure` inside `backend/`).
 
 ---
 
@@ -66,29 +66,33 @@
 deadzone-esports/
 ├── backend/                         # JAVA 27 / GRADLE BACKEND
 │   ├── build.gradle (or .kts)       # Root backend build config & dependency management
-│   ├── settings.gradle (or .kts)    # Includes ':core' and ':infrastructure'
+│   ├── settings.gradle (or .kts)    # Includes ':domain', ':application', ':infrastructure'
 │   │
-│   ├── core/                        # PURE JAVA 27. ZERO DEPENDENCIES (Zero Spring, Zero JPA)
+│   ├── domain/                      # 1. FUNCTIONAL CORE: Pure Java 27 (Zero Spring, Zero JPA, Zero I/O)
 │   │   └── src/
-│   │       ├── main/java/com/deadzone/core/
-│   │       │   ├── domain/          # Pure Functional Core
-│   │       │   │   ├── model/       # Immutable records: Team, Player, Match, TelemetryEvent
-│   │       │   │   ├── rules/       # Pure functions: SuperRuleEngine, TieBreakerSolver
-│   │       │   │   └── telemetry/   # Pure reducer: MatchEventReducer, CirclePhaseCalculator
-│   │       │   └── application/     # Imperative Shell / Orchestration
-│   │       │       ├── port/in/     # Inbound interfaces (Use Cases: IngestMatchUseCase, etc.)
-│   │       │       ├── port/out/    # Outbound interfaces (SPI: TournamentRepositoryPort, etc.)
-│   │       │       └── service/     # Pure use-case orchestrators (100% free of Spring annotations)
-│   │       └── test/java/           # Fast unit tests (Zero Spring context, zero mocks)
+│   │       ├── main/java/com/deadzone/domain/
+│   │       │   ├── model/           # Immutable records: Team, Player, Match, TelemetryEvent
+│   │       │   ├── rules/           # Pure functions: SuperRuleEngine, TieBreakerSolver, SmashRuleEngine
+│   │       │   └── telemetry/       # Pure reducers: MatchEventReducer, CirclePhaseCalculator
+│   │       └── test/java/           # Ultra-fast unit tests (Zero Spring context, zero mocks)
 │   │
-│   └── infrastructure/              # ADAPTERS & RUNTIME (Spring Boot, Web, JPA, Security)
+│   ├── application/                 # 2. IMPERATIVE SHELL: Use-Case Orchestration & Transaction Boundaries
+│   │   └── src/
+│   │       ├── main/java/com/deadzone/application/
+│   │       │   ├── port/in/         # Inbound interfaces (Use Cases: IngestMatchUseCase, etc.)
+│   │       │   ├── port/out/        # Outbound interfaces (SPI: TournamentRepositoryPort, etc.)
+│   │       │   └── service/         # Orchestrators (@Service, @Transactional, TransactionTemplate)
+│   │       └── test/java/           # Service orchestration tests (Zero Spring context, fast stubs)
+│   │
+│   └── infrastructure/              # 3. ADAPTERS & RUNTIME: Spring Boot Application, Web, JPA, Security
 │       └── src/
 │           ├── main/java/com/deadzone/infra/
-│           │   ├── adapter/in/web/       # REST Controllers (Upload, Standings, Replay)
-│           │   ├── adapter/out/jpa/      # JPA Entities, Mappers, Spring Data Repositories
-│           │   ├── adapter/out/fixture/  # Bundled JSON loader
-│           │   └── config/               # Spring @Configuration & @Bean wiring for Core services
-│           └── test/java/                # Integration tests (Testcontainers + PostgreSQL)
+│           │   ├── DeadzoneApplication.java # Spring Boot entry point
+│           │   ├── adapter/in/web/          # REST Controllers (Upload, Standings, Replay)
+│           │   ├── adapter/out/jpa/         # JPA Entities, Mappers, Spring Data Repositories
+│           │   ├── adapter/out/fixture/     # Bundled JSON loader
+│           │   └── config/                  # SecurityConfig, WebConfig, OpenAPIConfig
+│           └── test/java/                   # Integration tests (Testcontainers + PostgreSQL)
 │
 └── frontend/                        # REACT (Vite + TypeScript + Tailwind CSS)
     └── src/
@@ -133,7 +137,9 @@ deadzone-esports/
 All technical constraints previously tracked across requirements are formalized here:
 
 * **NFR-1 (Compiler-Enforced Hexagonal Architecture)**:
-  * `:core` module contains zero Spring, zero JPA, and zero network/filesystem dependencies.
+  * Strict compile-time DAG: `:infrastructure` $\longrightarrow$ `:application` $\longrightarrow$ `:domain`.
+  * `:domain` module contains zero Spring, zero JPA, and zero network/filesystem dependencies.
+  * `:application` module manages orchestration, use-case workflows, and transaction boundaries (`@Service`, `TransactionTemplate`) without polluting domain models.
   * All domain models (`Tournament`, `Stage`, `Match`, `Team`, `Player`, `MatchReplay`) are immutable Java 27 `record`s.
   * All scoring rules, tie-breaker solvers, and telemetry stream reducers are 100% pure functions.
 * **NFR-2 (Performance Targets)**:
@@ -148,20 +154,20 @@ All technical constraints previously tracked across requirements are formalized 
 
 ## 6. Implementation Roadmap & Traceability
 
-### Phase 1: Functional Core & Scoring Rules (`:core:domain`)
+### Phase 1: Functional Core & Scoring Rules (`:domain`)
 1. Define immutable domain models: `Team`, `Player`, `MatchResult`, `TeamMatchScore`.
 2. Implement pure `SuperRuleEngine` and `TieBreakerSolver` [`FR-4.1`, `FR-4.2`].
 3. Implement `SmashRuleEngine` with threshold tracking and win condition [`FR-4.3`].
 4. Write comprehensive, data-driven JUnit 5 tests modeling real PGC tie-break situations (zero mocks).
 
-### Phase 2: Telemetry Parser & Stream Reducer (`:core:domain`)
+### Phase 2: Telemetry Parser & Stream Reducer (`:domain`)
 1. Define raw telemetry records (`PlayerKnocked`, `PlayerKilled`, `DamageDealt`, `CircleShrunk`).
 2. Build pure `MatchEventReducer` to stream and extract [`FR-3.2`, `FR-3.3`]:
    * Team eliminations and final placements.
    * Circle phases (White safe zone & Blue zone coordinates + radius).
    * Kill vectors (killer location, victim location, weapon name, knocks).
 
-### Phase 3: Application Use Cases & Infrastructure Adapters (`:core:application` & `:infrastructure`)
+### Phase 3: Application Use Cases & Infrastructure Adapters (`:application` & `:infrastructure`)
 1. Define Inbound/Outbound ports (`TournamentRepositoryPort`, `MatchTelemetryPort`).
 2. Configure PostgreSQL via Docker Compose (`docker-compose.yml`) with Liquibase migrations.
 3. Build Spring Data JPA adapter with clean `Domain Record <-> JPA Entity` mappers.
