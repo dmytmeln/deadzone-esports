@@ -6,26 +6,77 @@
 
 ## Problem Solving
 
-- What do you know? (facts, context, constraints)
-- Understand the unknown: Distinguish sharply between the unknown, the data given, and the condition/constraints. "the unknown" is the exact output or target entity that the problem asks you to produce
-- Find related problems. Probably you are not the only one dealing with this kind of problem and probably there is a solution to similiar problem. Try to find it, analyze it.
-- Get a lot of input, you can't connect things you don't know. Read around your space
-- Work backward: Assume the solution exists and trace the necessary prerequisites backwards to the starting conditions.
-- Decompose and recombine: Isolate the difficult sub-element, solve a simplified or specialized case, then generalize back to the whole.
-- Be critical about the solution, especially your own one.
-- What are solution tradeoffs? In order to have tradeoff - there must be at least two solutions and you have to figure out what is good and bad about those solutions.
-- You MUST have questions. You can't know everything.
-- Focus! Go away from computer and try to focus on the problem
-- Use waking mind for critical thinking - analysis, criticising, tactics. Cons: prone to finding local maxima; use background mind for making connections, strategy, abstractions, synthesis
-- In order to use complex non-trivial problems - sleep!
-- We can't hold more than 4-7 items in our head. Focus shift so you have covered all the space but at any given point you had only 4-7 items in head.
-- 4-stage creative process: Preparation (loading data into working memory), Incubation (letting subconscious associations form without conscious strain), Illumination (the "aha!" moment), and Verification (rigorous checking).
-- Return back to the solution - try to find gaps, alternative / better approaches.
-- Five Whys & Causal Trees
-- Ishikawa (Fishbone) Analysis
-- Theory of Constraints & Bottleneck Analysis: The Five Focusing Steps: 1) Identify the system's constraint; 2) Exploit the constraint (ensure it works at 100% efficiency with no waste); 
-3) Subordinate everything else to the constraint (align all non-bottleneck activities to serve the bottleneck); 4) Elevate the constraint (invest resources to break through it); 5) Repeat (prevent inertia; the bottleneck will move)
-- Contradiction elimination: Most bad designs compromise (e.g., make it stronger, but it becomes heavier). TRIZ demands you eliminate the contradiction entirely (make it stronger and lighter)
+**Definition:** A disciplined cognitive and tactical protocol for understanding root issues, exploring solution spaces, and validating invariants before writing specs or code.  
+**Purpose:** Prevent problems of misconception, avoid building premature features, and systematically resolve hard engineering roadblocks across the lifecycle.
+
+### 1. The Universal Cognitive Meta-Loop (The Hammock Engine)
+
+Universal cognitive stages that govern all non-trivial thinking, regardless of problem type:
+
+1. **State the Problem:**
+   - Explicitly articulate the problem out loud or in writing before proposing solutions.
+   - Focus on root user/system problems, not requested "features" (features are attributes, not the objective).
+   - Distinguish problems of misconception from mere implementation defects.
+
+2. **Preparation (Loading Working Memory):**
+   - **Facts & Context:** Ground the problem in known system realities, architecture, and historical context.
+   - **Constraints:** Explicitly capture hard limits (hardware, SLAs, latency, business rules).
+   - **Unknowns & Questions:** Differentiate sharply between what is given, what is missing, and what is target output. You *must* have open questions.
+   - **Prior Art Analysis & Critique:** Read around the space; study existing solutions to similar problems. Critically analyze their designs, strengths, trade-offs, and failure modes to understand why they made those choices before starting from scratch.
+   - **Externalize & Chunk (4–7 Items):** Human working memory caps at 4–7 items. Shift focus sequentially across bounded sub-spaces, externalizing notes and informal diagrams (avoid bureaucratic UML).
+
+3. **Incubation (Feeding the Background Mind):**
+   - Step away from the computer. Detach from keyboard-driven trial-and-error.
+   - Leverage the background mind for holistic connections, cross-domain synthesis, and global strategy.
+   - Sleep on complex, non-trivial problems to allow subconscious associations to form without strain.
+
+4. **Illumination (Candidate Synthesis):**
+   - Capture candidate solutions and "aha!" insights without rushing into immediate implementation.
+
+5. **Verification & Critical Skepticism (The Waking Mind):**
+   - **Verification Against Facts:** Rigorously verify proposed candidate solutions directly against the grounded facts, constraints, and invariants established during Preparation.
+   - **System-Specific Evaluation:** Focus critical analysis on solutions tailored to this system's problem context, picking candidate designs apart to expose hidden assumptions.
+   - **Recall Test:** Step away and attempt to reconstruct the core solution from memory. Unrecalled areas expose gaps in understanding.
+   - **Trade-off Evaluation:** In order to have a trade-off, there must be at least two distinct candidate solutions. Enumerate what is gained, what is lost, and what risks remain for each.
+
+---
+
+### 2. Route Triage Rubric
+
+When facing a roadblock, classify the symptom to enter the appropriate tactical route:
+
+| Symptom / Challenge | Tactical Route | Core Objective |
+| :--- | :--- | :--- |
+| High ambiguity, greenfield capability, or unknown domain model | **Route 1: Exploration & Synthesis** | Discover the unknown and compose viable models |
+| Observed behavior deviates from expected system invariants | **Route 2: Root-Cause Diagnosis** | Trace backwards to find fundamental causal origins |
+| Resource saturation, throughput degradation, or latency bottleneck | **Route 3: Bottleneck Optimization** | Maximize system throughput via constraint elevation |
+| Mutually conflicting requirements where standard trade-offs are unacceptable | **Route 4: Contradiction Resolution** | Eliminate architectural compromises without penalty |
+
+---
+
+### 3. Tactical Problem Routes
+
+#### Route 1: Exploration & Synthesis (Pólya Heuristics)
+- **Target Unknowns:** Clarify the exact target entity/output that the problem asks to produce.
+- **Work Backward:** Assume the solution already exists; trace the necessary prerequisites backwards to starting conditions.
+- **Decompose and Recombine:** Isolate the hardest sub-element, solve a simplified/specialized case, then generalize back to the whole.
+- **Analogous Systems:** Find and adapt patterns from related problems already solved elsewhere.
+
+#### Route 2: Root-Cause Diagnosis (Causal Analysis)
+- **Five Whys & Causal Trees:** Iteratively ask "Why?" to drill through immediate symptoms to underlying structural and organizational causes.
+- **Ishikawa (Fishbone) Analysis:** Systematically categorize potential causes across system dimensions (Machine/Infrastructure, Method/Algorithm, Data/Payload, Environment, Human/Config).
+
+#### Route 3: Bottleneck Optimization (Theory of Constraints)
+- **Goldratt's Five Focusing Steps:**
+  1. *Identify* the system's single constraint (the true bottleneck).
+  2. *Exploit* the constraint (ensure it works at 100% capacity with zero waste).
+  3. *Subordinate* everything else (align all non-bottleneck processes to strictly pace with the constraint).
+  4. *Elevate* the constraint (invest resources/hardware/optimizations to break through it).
+  5. *Repeat* (prevent organizational inertia; locate the next bottleneck).
+
+#### Route 4: Contradiction & Dilemma Resolution (TRIZ & Dialectic)
+- **Contradiction Elimination:** Reject false compromises (e.g., "to make it stronger, we must accept it being heavier"). Use TRIZ inventive principles to eliminate the contradiction entirely (achieve strength *without* weight penalty).
+- **Invariant Synthesis:** Reframe competing architectural demands (e.g., strong consistency vs. high availability) into higher-level invariants or domain partitioning.
 
 ---
 
