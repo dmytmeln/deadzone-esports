@@ -7,9 +7,14 @@
 ## Problem Solving
 
 **Definition:** A disciplined cognitive and tactical protocol for understanding root issues, exploring solution spaces, and validating invariants before writing specs or code.  
-**Purpose:** Prevent problems of misconception, avoid building premature features, and systematically resolve hard engineering roadblocks across the lifecycle.
+**Purpose:** Prevent problems of misconception, avoid building premature features, and systematically resolve hard engineering roadblocks across the lifecycle.  
+**Lifecycle Invocation:** Operates in dual-mode:
+- *Phase 0 (Upstream Entry):* Executed prior to the Product Phase for new initiatives to anchor the problem space and prove viability before drafting user stories or specs.
+- *On-Demand Sub-routine (Downstream Callback):* Invoked dynamically from downstream phases (Architecture, Design, Operation) whenever an engineer or agent hits an architectural impasse, conflicting constraints, or unknown failure modes.
 
 ### 1. The Universal Cognitive Meta-Loop (The Hammock Engine)
+
+*A cross-cutting cognitive operating system operating fractally across all factory phases (Problem Solving, System Architecture, Program Design, and Operation).*
 
 Universal cognitive stages that govern all non-trivial thinking, regardless of problem type:
 
@@ -29,6 +34,7 @@ Universal cognitive stages that govern all non-trivial thinking, regardless of p
    - Step away from the computer. Detach from keyboard-driven trial-and-error.
    - Leverage the background mind for holistic connections, cross-domain synthesis, and global strategy.
    - Sleep on complex, non-trivial problems to allow subconscious associations to form without strain.
+   - **Human/AI Boundary:** Incubation is strictly human biological detachment; AI does not participate and must complete all retrieval and candidate preparation beforehand.
 
 4. **Illumination (Candidate Synthesis):**
    - Capture candidate solutions and "aha!" insights without rushing into immediate implementation.
@@ -37,7 +43,10 @@ Universal cognitive stages that govern all non-trivial thinking, regardless of p
    - **Verification Against Facts:** Rigorously verify proposed candidate solutions directly against the grounded facts, constraints, and invariants established during Preparation.
    - **System-Specific Evaluation:** Focus critical analysis on solutions tailored to this system's problem context, picking candidate designs apart to expose hidden assumptions.
    - **Recall Test:** Step away and attempt to reconstruct the core solution from memory. Unrecalled areas expose gaps in understanding.
-   - **Trade-off Evaluation:** In order to have a trade-off, there must be at least two distinct candidate solutions. Enumerate what is gained, what is lost, and what risks remain for each.
+   - **Dual-Tier Trade-off Gate:**
+     - In order to have a trade-off, there must be at least two distinct candidate solutions.
+     - *Tier 1 (Design Review):* Structured comparative evaluation of alternatives (gains, losses, residual risks) for standard-complexity tasks.
+     - *Tier 2 (Empirical Spikes):* Throwaway prototype / spike experiments for high-uncertainty or performance-critical unknowns before committing to production.
 
 ---
 
