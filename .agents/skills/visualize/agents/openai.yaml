@@ -1,0 +1,5 @@
+interface:
+  display_name: "Visualize"
+  short_description: "Explain any concept with schematic diagrams"
+policy:
+  allow_implicit_invocation: true
