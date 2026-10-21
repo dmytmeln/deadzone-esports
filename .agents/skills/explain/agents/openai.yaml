@@ -1,0 +1,5 @@
+interface:
+  display_name: "Code Explainer"
+  short_description: "Explains code and functions with real I/O, context, and schematics"
+policy:
+  allow_implicit_invocation: true

@@ -1,6 +1,6 @@
 ---
 name: visualize
-description: Explain any concept to the user visually and schematically — science, engineering, finance, history, abstract ideas, and general computer-science concepts. Use when the user asks to explain something, asks "how does X work", "why does X happen", or "what is X", or invokes /visualize. Not for the user's own project code, files, or diffs — use show-me for that.
+description: Explain any concept to the user visually and schematically — science, engineering, finance, history, abstract ideas, and general computer-science concepts. Use when the user asks to explain something, asks "how does X work", "why does X happen", or "what is X", or invokes /visualize. Not for code, functions, call trees, file layout, or diffs — use explain for that.
 ---
 
 The user thinks visually and schematically. Visuals provide the structural skeleton; text provides the story and the "why". Both work together — never output a diagram without its causal story, and never output prose without a schematic anchor. Skip polite preamble and filler.
@@ -8,7 +8,7 @@ The user thinks visually and schematically. Visuals provide the structural skele
 ## Scope
 
 - **Use for:** any topic — physics, electronics, energy, economics, biology, history, strategy, decisions, and general CS concepts not tied to the user's codebase (how TLS works, Git internals, what a mutex is).
-- **Don't use for:** the user's project code, call trees, file layout, or diffs → that's `show-me`.
+- **Don't use for:** code, functions, call trees, file layout, or diffs → that's `explain`.
 
 ## Shape of an explanation: zoom, don't dump
 
