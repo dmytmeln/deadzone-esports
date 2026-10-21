@@ -1,21 +1,29 @@
 ---
 name: explain
-description: Explains functions, methods, classes, algorithms, and code logic using concrete real-world input/output examples, calling context, tiered visual schematics, execution traces, side-effects, and failure modes. Use when the user asks "explain how does function X work", "how does this method work", "explain this code", "walk me through this function", "what does this code do", "how does X work under the hood", or requests an explanation of any programming mechanism or codebase symbol.
+description: Explains functions, methods, classes, algorithms, and code logic using concrete real-world input/output examples, calling context, tiered visual schematics, execution traces, side-effects, and failure modes. Use when the user asks "explain how does function X work", "how does this method work", "explain this code", "walk me through this function", "what does this code do", "how does X work under the hood", or requests an explanation of any software component or programming mechanism.
 ---
 
-# Code & Programming Explainer
+## Goal
 
-Explains any code component - whether a function in the local codebase, a third-party library API, an algorithm, or a language feature - with maximum clarity and zero fluff. Every explanation is grounded in real calling context, realistic input/output examples, and structural schematics.
+Explain any software component using ASD-STE100 principles through a structured 7-part breakdown (mental model, contract, calling context, concrete I/O, execution trace, side effects, and failure modes) accompanied by a visual schematic.
 
 ---
 
-## Scope & Tool Routing
+## Constraints
 
-- **Codebase Functions & Classes:** When explaining code within the workspace:
-  - In indexed repositories (`.codegraph/` exists), use `codegraph_explore` or `codegraph explore "<symbol>"` to inspect callers, callees, and symbol source.
-  - In other repositories, use `ast-grep --lang <lang> -p '<pattern>'` to locate definitions and call sites before reading files.
-  - Link all referenced symbols and files with clickable links using forward slashes (e.g. `[ClassName](file:///path/to/file.ext#L10-L25)`).
-- **General Programming Concepts & Algorithms:** When explaining general language constructs, standard libraries, or algorithms not in the repository, explain conceptually using the exact same 7-part template with realistic production scenarios.
+1. **ASD-STE100 Compliance:** Write strictly according to ASD-STE100.
+2. **Factual Grounding:** For workspace code, inspect caller and callee context and read the exact implementation before drafting the explanation; never guess behavior.
+3. **Concrete Domain Data:** Never use synthetic placeholders (`foo`, `bar`, `test`, `temp`, or dummy numbers); all inputs, outputs, and call examples must use realistic domain values.
+4. **Template Integrity:** Follow the 7-part breakdown in exact sequence without omitting sections.
+5. **Visual Placement:** Render Tier 1 ASCII directly in chat; write Tier 2 Mermaid exclusively to `./explain/explain-{software-component-name}.md` with a clickable markdown link.
+6. **Forward-Slash File Links:** Link all referenced workspace files and software components using clickable markdown links with forward slashes (`file:///path/to/file.ext#L10-L20`).
+
+---
+
+## Scope
+
+- **Workspace Code:** Functions, methods, classes, and interfaces declared in the repository.
+- **External APIs & Algorithms:** Third-party libraries, runtime APIs, language features, and standalone algorithms. Must follow the identical 7-part template using realistic production scenarios.
 
 ---
 
@@ -26,7 +34,7 @@ Select the lightest tier that produces a clean visual:
 | Tier | When to Use | Output Destination |
 |---|---|---|
 | **Tier 1: Inline ASCII** (Default) | Linear flows, compact state transitions, caller-to-callee handoffs, or pipelines with $\le 7$ nodes | Inline in chat inside a `text` code block |
-| **Tier 2: Mermaid Markdown File** | Complex branching, recursive call trees, bidirectional loops, or $> 7$ nodes | Write to `./explain/explain-{symbol-name}.md` and provide a clickable link |
+| **Tier 2: Mermaid Markdown File** | Complex branching, recursive call trees, bidirectional loops, or $> 7$ nodes | Write to `./explain/explain-{software-component-name}.md` and provide a clickable link |
 
 *Rules for Visuals:*
 - Never dump raw Mermaid syntax inline into terminal chat. Tier 2 Mermaid must always be written to a `./explain/*.md` file.
@@ -39,41 +47,30 @@ Select the lightest tier that produces a clean visual:
 Every code explanation must strictly follow this exact 7-part sequence:
 
 ### 1. Core Concept & Mental Model
-- State in 1–2 sentences what the component accomplishes, why it exists, and its primary responsibility.
-- Provide a Tier 1 ASCII schematic (or link to a Tier 2 Mermaid file in `./explain/`) illustrating the core data or control flow.
+- State the primary responsibility of the component in 1–2 sentences.
+- Provide a schematic (Tier 1 ASCII inline or Tier 2 Mermaid link) showing data or control flow.
 
 ### 2. Signature & Contract
-- Provide the full function or class signature with explicit parameter and return types.
-- **Preconditions:** What requirements must hold true before a function starts.
-- **Postconditions:** What conditions must be true after a function finishes.
-- **Invariants:** What conditions must stay true during the life of a component.
+- Provide the complete declaration signature with explicit parameter and return types.
+- State preconditions, postconditions, and invariants.
 
 ### 3. Calling Context & Motivation
-- Explain *where*, *when*, and *why* this component is called in real-world systems.
-- Include a realistic call-site code snippet demonstrating how an actual caller invokes it (e.g. an HTTP route handler, background worker, or lifecycle hook).
+- Explain where, when, and why this component is called in a real-world scenario.
+- Provide a realistic call-site snippet showing caller invocation.
 
 ### 4. Concrete Input / Output Examples
-- **No placeholder values:** Never use `foo`, `bar`, `test`, `temp`, or meaningless integers like `123` unless strictly numeric.
-- **Happy Path:** Provide a realistic input payload and the exact corresponding return value.
-- **Failure Path:** Provide an invalid or edge-case input payload and the resulting error, exception, or rejection return.
+- **Happy path:** Realistic input payload and the exact corresponding return value.
+- **Failure path:** Invalid or edge-case input payload and the resulting error, exception, or return value.
 
-### 5. Execution Trace (Logic Walkthrough)
-- Break down the internal execution into an ordered numbered list.
-- Highlight key branch decisions, loops, and helper invocations.
-- In workspace code, reference exact line ranges with clickable markdown links for each key step.
+### 5. Execution Trace
+- Present the sequential execution flow as an ordered list.
+- Identify key branch decisions, loops, and helper invocations.
+- For workspace code, link each step to its source line range.
 
 ### 6. Side Effects & State Mutations
-List every side effect produced outside the local call frame.
-*If pure:* Explicitly state *"Pure function: No side effects or state mutations."*
+- List all state mutations and external side effects (I/O, database, network, shared memory).
+- If none, explicitly state: "No side effects or state mutations."
 
 ### 7. Failure Modes & Edge Cases
-- List concrete exceptions thrown, error codes returned, or rejection promises.
-- Document edge cases (e.g. empty lists, concurrent invocation races, timeout scenarios, boundary overflows) and how the caller is expected to handle them.
-
----
-
-## Authoring Invariants
-
-1. **Concrete Over Abstract:** Use production-grade domain values (e.g. user IDs, UUIDs, ISO timestamps, realistic JWT strings, database entity names) in all examples.
-2. **Deterministic Context Gathering:** Never guess or hallucinate a function's behavior. Read the full source file, identify call sites, and inspect imported helpers before drafting the explanation.
-3. **Instruction Economy:** Keep text direct, sharp, and focused on causal mechanics. Omit polite filler, conversational preamble, and generic conclusions.
+- List specific exceptions thrown, error codes, and failure return values.
+- Document boundary edge cases and expected caller handling.
