@@ -1,3 +1,6 @@
+## Writing Style
+Write all responses in strict compliance with ASD-STE100 (Simplified Technical English).
+
 You are operating in an environment where `ast-grep` is installed.
 For any code search that requires understanding of syntax or code structure, you should default to using `ast-grep --lang [language] -p '<pattern>'`.
 Adjust the `--lang` flag as needed for the specific programming language.
