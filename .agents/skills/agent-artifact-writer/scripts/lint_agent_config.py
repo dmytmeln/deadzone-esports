@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 lint_agent_config.py
-Deterministic validator for AGENTS.md and Agent Skills (SKILL.md).
+Deterministic validator for root instruction files (e.g. AGENTS.md, CLAUDE.md) and Agent Skills (SKILL.md).
 """
 
-import sys
 import re
+import sys
 from pathlib import Path
 
 NAME_REGEX = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -13,48 +13,117 @@ FIRST_SECOND_PERSON_PREFIXES = (
     "i ", "i can", "i will", "we ", "we can",
     "you ", "you can", "you should", "use this to",
 )
+FENCED_BLOCK_REGEX = re.compile(r"^(`{3,}|~{3,}).*?^\1", re.MULTILINE | re.DOTALL)
+MD_LINK_REGEX = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 
-def lint_agents_md(path: Path) -> list[str]:
-    errors = []
+
+def strip_fenced_code_blocks(text: str) -> str:
+    return FENCED_BLOCK_REGEX.sub("", text)
+
+
+def extract_local_md_links(text: str) -> list[tuple[int, str]]:
+    """Return (line_number, link_path) for local .md links outside fenced code blocks."""
+    results: list[tuple[int, str]] = []
+    in_fence = False
+    fence_marker = ""
+
+    for idx, line in enumerate(text.splitlines(), start=1):
+        stripped = line.lstrip()
+        if not in_fence:
+            m = re.match(r"^(`{3,}|~{3,})", stripped)
+            if m:
+                in_fence = True
+                fence_marker = m.group(1)
+                continue
+        else:
+            if stripped.startswith(fence_marker):
+                in_fence = False
+                fence_marker = ""
+            continue
+
+        for match in MD_LINK_REGEX.finditer(line):
+            raw_target = match.group(1).strip().split()[0]
+            if any(raw_target.startswith(scheme) for scheme in ("http://", "https://", "mailto:", "conversation://", "#")):
+                continue
+            target_no_anchor = raw_target.split("#", 1)[0]
+            if target_no_anchor.lower().endswith(".md"):
+                results.append((idx, target_no_anchor))
+
+    return results
+
+
+def lint_reference_file(ref_path: Path, label: str) -> list[str]:
+    errors: list[str] = []
     try:
-        text = path.read_text(encoding="utf-8")
+        ref_text = ref_path.read_text(encoding="utf-8", errors="replace")
     except Exception as e:
-        return [f"Could not read {path}: {e}"]
+        return [f"Could not read reference file '{label}': {e}"]
 
-    lines = text.splitlines()
+    ref_lines = ref_text.splitlines()
+    if len(ref_lines) > 300:
+        errors.append(
+            f"Reference file '{label}' is {len(ref_lines)} lines (max 300). "
+            "Split topics into separate files under 300 lines."
+        )
 
-    # Rule: <= 200 lines
-    if len(lines) > 200:
-        errors.append(f"AGENTS.md is {len(lines)} lines. Hard ceiling is 200 lines to prevent instruction fatigue.")
-
-    # Rule: Unix forward slashes in links
-    for idx, line in enumerate(lines, start=1):
-        if re.search(r"\[.*?\]\([^\)]*\\[^\)]*\)", line):
-            errors.append(f"Line {idx}: Found Windows backslash in markdown link. Use forward slashes (/) exclusively.")
+    for line_no, linked_md in extract_local_md_links(ref_text):
+        errors.append(
+            f"Reference file '{label}' (line {line_no}) links to another markdown file ('{linked_md}'). "
+            "Keep references one hop deep from the root file."
+        )
 
     return errors
 
+
+def lint_root_instructions(root_path: Path) -> list[str]:
+    errors: list[str] = []
+    try:
+        text = root_path.read_text(encoding="utf-8")
+    except Exception as e:
+        return [f"Could not read {root_path}: {e}"]
+
+    lines = text.splitlines()
+    if len(lines) > 200:
+        errors.append(f"Root instruction file '{root_path.name}' is {len(lines)} lines (max 200).")
+
+    seen_refs: set[Path] = set()
+    for line_no, rel_link in extract_local_md_links(text):
+        if rel_link.startswith("file:///"):
+            ref_path = Path(rel_link.removeprefix("file:///"))
+        else:
+            ref_path = (root_path.parent / rel_link).resolve()
+
+        if ref_path == root_path.resolve() or ref_path in seen_refs:
+            continue
+        seen_refs.add(ref_path)
+
+        if not ref_path.exists():
+            errors.append(f"Line {line_no}: Linked reference file '{rel_link}' does not exist.")
+            continue
+
+        errors.extend(lint_reference_file(ref_path, rel_link))
+
+    return errors
+
+
 def lint_skill(skill_dir: Path, skill_md_path: Path) -> list[str]:
-    errors = []
+    errors: list[str] = []
     try:
         text = skill_md_path.read_text(encoding="utf-8")
     except Exception as e:
         return [f"Could not read {skill_md_path}: {e}"]
 
     lines = text.splitlines()
-
-    # Rule: Body <= 500 lines
     if len(lines) > 500:
-        errors.append(f"SKILL.md is {len(lines)} lines. Must be under 500 lines; offload reference data into references/.")
+        errors.append(f"SKILL.md is {len(lines)} lines (max 500). Move detailed guides into references/.")
 
-    # Rule: Parse frontmatter
     fm_match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", text, re.DOTALL)
     if not fm_match:
         errors.append("SKILL.md is missing valid YAML frontmatter enclosed between '---' delimiters.")
         return errors
 
-    fm_raw, body_raw = fm_match.groups()
-    fm = {}
+    fm_raw, _ = fm_match.groups()
+    fm: dict[str, str] = {}
     for line in fm_raw.splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
@@ -63,7 +132,6 @@ def lint_skill(skill_dir: Path, skill_md_path: Path) -> list[str]:
             k, v = line.split(":", 1)
             fm[k.strip()] = v.strip().strip("'\"")
 
-    # Name check
     name = fm.get("name")
     if not name:
         errors.append("Frontmatter missing required 'name' field.")
@@ -75,7 +143,6 @@ def lint_skill(skill_dir: Path, skill_md_path: Path) -> list[str]:
         if skill_dir.name != name:
             errors.append(f"'name' ('{name}') does not match directory name ('{skill_dir.name}').")
 
-    # Description check
     desc = fm.get("description")
     if not desc:
         errors.append("Frontmatter missing required 'description' field.")
@@ -90,40 +157,17 @@ def lint_skill(skill_dir: Path, skill_md_path: Path) -> list[str]:
                 errors.append(f"'description' starts with '{prefix}'. Must be written in third person.")
                 break
 
-    # Forward slash check in SKILL.md
-    for idx, line in enumerate(lines, start=1):
-        if re.search(r"\[.*?\]\([^\)]*\\[^\)]*\)", line):
-            errors.append(f"Line {idx}: Found Windows backslash in markdown link. Use forward slashes (/) exclusively.")
-
-    # References directory checks
     refs_dir = skill_dir / "references"
     if refs_dir.is_dir():
-        for ref_file in refs_dir.glob("*.md"):
-            ref_text = ref_file.read_text(encoding="utf-8", errors="replace")
-            ref_lines = ref_text.splitlines()
-
-            # Rule: Table of contents if > 200 lines
-            if len(ref_lines) > 200:
-                header_window = "\n".join(ref_lines[:40]).lower()
-                if "table of contents" not in header_window and "## contents" not in header_window and "# contents" not in header_window:
-                    errors.append(
-                        f"Reference file '{refs_dir.name}/{ref_file.name}' is {len(ref_lines)} lines (>200). "
-                        "Add a Table of Contents near the top so agents can navigate line ranges efficiently."
-                    )
-
-            # Rule: Single-level reference depth (references must not link to other references)
-            for idx, r_line in enumerate(ref_lines, start=1):
-                if re.search(r"\[.*?\]\([^)]*(references/|\.md)[^)]*\)", r_line) and "http" not in r_line:
-                    errors.append(
-                        f"Reference file '{refs_dir.name}/{ref_file.name}' (line {idx}) links to another local markdown file. "
-                        "Keep references strictly one level deep from SKILL.md."
-                    )
+        for ref_file in sorted(refs_dir.glob("*.md")):
+            errors.extend(lint_reference_file(ref_file, f"{refs_dir.name}/{ref_file.name}"))
 
     return errors
 
-def main():
+
+def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python lint_agent_config.py <path_to_AGENTS.md_or_skill_dir>")
+        print("Usage: python lint_agent_config.py <path_to_root_instruction_file_or_skill_dir>")
         sys.exit(1)
 
     target = Path(sys.argv[1]).resolve()
@@ -131,16 +175,11 @@ def main():
         print(f"Error: Target path '{target}' does not exist.")
         sys.exit(1)
 
-    errors = []
-
     if target.is_file():
-        if target.name.lower() == "agents.md" or target.name.endswith(".md") and "agents" in target.name.lower():
-            errors = lint_agents_md(target)
-        elif target.name.lower() == "skill.md":
+        if target.name.lower() == "skill.md":
             errors = lint_skill(target.parent, target)
         else:
-            print(f"Unrecognized file '{target.name}'. Expected AGENTS.md or SKILL.md.")
-            sys.exit(1)
+            errors = lint_root_instructions(target)
     elif target.is_dir():
         skill_md = target / "SKILL.md"
         if skill_md.exists():
@@ -148,10 +187,13 @@ def main():
         else:
             agents_md = target / "AGENTS.md"
             if agents_md.exists():
-                errors = lint_agents_md(agents_md)
+                errors = lint_root_instructions(agents_md)
             else:
-                print(f"No SKILL.md or AGENTS.md found in directory '{target}'.")
+                print(f"No SKILL.md or AGENTS.md found in directory '{target}'. Pass the root instruction file path directly.")
                 sys.exit(1)
+    else:
+        print(f"Error: Invalid target '{target}'.")
+        sys.exit(1)
 
     if errors:
         print(f"[FAIL] Found {len(errors)} error(s) in {target.name}:")
@@ -161,6 +203,7 @@ def main():
     else:
         print(f"[PASS] {target.name} satisfied all deterministic checks.")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

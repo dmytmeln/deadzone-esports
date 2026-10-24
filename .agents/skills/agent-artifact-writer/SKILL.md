@@ -22,3 +22,9 @@ Increase agent success rate and efficiency across two types of artifacts:
 Read the guide that matches the target artifact before writing:
 - **Skills (`SKILL.md`):** Read [references/skills_guide.md](references/skills_guide.md).
 - **Instructions (`AGENTS.md`, rules, reference docs):** Read [references/instructions_guide.md](references/instructions_guide.md).
+
+## Verification
+
+After writing or updating an artifact, run the linter and fix any reported errors:
+- **For a skill:** `python .agents/skills/agent-artifact-writer/scripts/lint_agent_config.py <path/to/skill-dir>`
+- **For instructions:** `python .agents/skills/agent-artifact-writer/scripts/lint_agent_config.py <path/to/root-instruction-file>`

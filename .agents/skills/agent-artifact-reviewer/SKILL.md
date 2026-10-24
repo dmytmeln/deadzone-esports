@@ -1,76 +1,40 @@
 ---
 name: agent-artifact-reviewer
-description: Audits and grades repository AGENTS.md files and Agent Skills (SKILL.md) against context engineering quality checklists. Use when reviewing an existing AGENTS.md, evaluating a skill before merging, or running a comprehensive repository agent configuration audit.
+description: Audits agent artifacts—including AGENTS.md, Agent Skills (SKILL.md), custom rules, and reference documents—and reports rule violations with exact fixes. Use when reviewing an existing AGENTS.md, evaluating a skill, or auditing agent instructions.
 ---
 
-# Agent Artifact Reviewer
+## Universal Writing Checks
 
-Deterministic and qualitative auditor for repository instructions (`AGENTS.md`) and Agent Skills (`SKILL.md`).
+Flag any line in the target artifact (or its linked reference files) that violates these rules:
+1. **Generic Platitudes:** Contains general advice (*"write clean code"*, *"handle errors gracefully"*, *"follow best practices"*) instead of a specific rule, tool, or step.
+2. **Ambiguous or Hedged Sentences:** Uses hedge words (*"try to"*, *"ideally"*, *"when appropriate"*), subjective words (*"short"*, *"proper"*), or packs multiple unrelated rules into one sentence.
+3. **Invented Terminology:** Uses made-up labels, buzzwords, or compound phrases where a common, standard term exists.
+4. **Bare Prohibitions:** States what not to do (`"Do not <X>"` or `"Never <X>"`) without stating the allowed alternative (`"use <Y> instead"`), or attaches a verbose `"because..."` rationale to a standard rule.
+5. **Aggressive Shouting:** Uses `ALL CAPS` emphasis (`MUST`, `CRITICAL`, `IMPORTANT`, `ALWAYS`) or exclamation marks instead of calm imperative sentences.
 
----
+## Reference Checklists
 
-## Operating Protocol
+Read the checklist that matches the target artifact:
+- **Skills (`SKILL.md`):** Read [references/skills_checklist.md](references/skills_checklist.md).
+- **Instructions (`AGENTS.md`, rules, reference docs):** Read [references/instructions_checklist.md](references/instructions_checklist.md).
 
-1. **Deterministic Verification First:** Always execute `python scripts/lint_agent_config.py <target>` before qualitative scoring. Any deterministic failure (e.g. file too long, invalid regex, missing TOC) is recorded immediately.
-2. **Progressive Disclosure:**
-   - If reviewing `AGENTS.md` $\to$ Read `references/agents_rubric.md` (Items A1–A16).
-   - If reviewing a skill $\to$ Read `references/skills_rubric.md` (Items S1–S15).
-3. **Objective Scoring Only:** Score each criterion strictly on a 0–2 scale:
-   - `2` = Fully compliant (all requirements met with evidence).
-   - `1` = Partially compliant (partially present or ambiguous).
-   - `0` = Non-compliant (absent, violating, or anti-pattern).
+## Audit Steps
 
----
-
-## Workflow
-
-### Step 1: Identify Target Scope
-Determine the target specified by the user:
-- **Single File / Skill:** E.g., `AGENTS.md` or `.agents/skills/<name>`.
-- **Full Repository (`all`):** Finds root `AGENTS.md` and all skill directories inside `.agents/skills/` (and `.claude/skills/` if present) to audit the entire repository in a batch.
-
-### Step 2: Execute Deterministic Linter
-Run:
-```bash
-python scripts/lint_agent_config.py <target_path>
-```
-Record any deterministic syntax, regex, or sizing errors.
-
-### Step 3: Qualitative Checklist Evaluation
-Read the corresponding reference rubric (`references/agents_rubric.md` or `references/skills_rubric.md`). Inspect the target file and evaluate every item.
-
-### Step 4: Calculate Verdict (Gated Tiering)
-Compute the total score percentage: $\frac{\text{Sum of earned points}}{\text{Total possible points}} \times 100\%$.
-
-Determine the verdict:
-- **PASS:** Overall score $\ge 85\%$ **AND** $100\%$ on all Must-Have ($\bigstar$) items (all $\bigstar$ items scored 2/2).
-- **NEEDS WORK:** Overall score is $70\% - 84\%$, **OR** any Must-Have ($\bigstar$) item scored partial (1/2).
-- **FAIL:** Overall score $< 70\%$, **OR** any Must-Have ($\bigstar$) item scored zero (0/2).
-
-### Step 5: Generate the Audit Report
-Output the report using the following structure:
+1. **Run Deterministic Linter:**
+   - For a skill: `python .agents/skills/agent-artifact-reviewer/scripts/lint_agent_config.py <path/to/skill-dir>`
+   - For instructions: `python .agents/skills/agent-artifact-reviewer/scripts/lint_agent_config.py <path/to/root-instruction-file>`
+2. **Evaluate Checklists:** Check the target file (and any linked reference files) against `## Universal Writing Checks` and the loaded reference checklist. Do not modify the target files during the review.
+3. **Output Audit Report:** Output the report using this exact template (omit the `## Violations & Fixes` section if `Verdict` is `PASS`):
 
 ```markdown
-# Agent Configuration Audit: <Target Name>
+# Audit Report: <Target>
 
-**Verdict:** <PASS | NEEDS WORK | FAIL>  
-**Score:** <Earned Points> / <Max Points> (<Percentage>%)  
-**Deterministic Linter:** <PASS | FAIL (list errors)>
+**Verdict:** <PASS | FAIL>
+**Linter:** <PASS | FAIL (list errors)>
 
----
+## Violations & Fixes
 
-## Scorecard
-
-| Item | Status | Score | Finding |
-| :--- | :---: | :---: | :--- |
-| **A1 ★ Exact Commands** | ✅ | 2/2 | Build, lint, full test, and single test commands present. |
-| **A2 ★ Mistake Test** | ⚠️ | 1/2 | Contains boilerplate framework overview that could be pruned. |
-| ... | ❌ | 0/2 | ... |
-
----
-
-## Priority Improvements
-
-1. **[Critical / Must-Have]** <Specific actionable change needed to unblock a PASS verdict>
-2. **[Improvement]** <Actionable suggestion for partial or failed items>
+| Location | Rule Violated | Current Text / Issue | Proposed Fix |
+| :--- | :--- | :--- | :--- |
+| `<file>:<line>` | <Rule Name> | `<quoted text or issue>` | `<exact replacement text or action>` |
 ```

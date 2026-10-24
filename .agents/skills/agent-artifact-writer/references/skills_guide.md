@@ -1,55 +1,26 @@
-# Agent Skills Authoring Guide & Specification
+# Skills Authoring Guide
 
-Guidance and canonical structure for authoring modular Agent Skills (`SKILL.md`).
+## What to Include
 
----
+1. **Task-Specific Scope Only:** Do not put general project rules that apply across unrelated tasks into a skill; put general rules into the project's instruction files (such as `AGENTS.md`, `CLAUDE.md`, or their reference files), and include in `SKILL.md` only what is needed for that specific task.
+2. **Pre-Resolve Environment and Tool Choices:** Do not write a skill that tells the agent to check at runtime which platform, CLI tool, or MCP server the project uses; inspect the project while writing the skill and specify the exact tool and command to run.
+3. **Omit Standard Tool Tutorials:** Do not explain standard CLI flags, language syntax, or general concepts the model already knows; include only the specific commands, arguments, and rules required for the workflow.
 
-## Standard Skill Directory Layout
+## Frontmatter Rules
 
-```text
-my-skill/
-├── SKILL.md                 # Required: Frontmatter + core procedures
-├── scripts/                 # Optional: Executable utilities (Python, Node, Bash)
-├── references/              # Optional: Deep reference docs
-└── assets/                  # Optional: Templates, sample payloads, fixtures
-```
+1. **State What It Does and When to Use It:** Do not write only what the skill does or use broad descriptions (*"helps with code"*); state in `description` both the exact capability and the specific tasks, file types, or user phrases that should trigger it (and state what *not* to use it for if it overlaps with another skill).
+2. **Third-Person Verbs:** Do not write `description` in first person (*"I can..."*) or second person (*"You can..."*, *"Use this to..."*); start with third-person verbs (*"Writes..."*, *"Explains..."*) instead.
 
----
+## How to Write the Skill Body
 
-## Frontmatter Specification
+1. **Sequence Only What Is Sequential:** Do not force non-sequential rules into fake numbered steps; use numbered steps (`Step 1`, `Step 2`) only when actions must run in a strict order, and use constraint lists when order does not matter.
+2. **Use Tables or `If/Then` for Branching:** Do not bury conditional choices in prose paragraphs; use a routing table (`Condition | Action`) or `If <condition>, <do action>` rules when the agent must choose between paths.
+3. **Show Templates Instead of Describing Formats:** Do not describe a required output format in prose; provide the exact template in a fenced code block instead.
+4. **Cap Rules Per Step:** Do not pack more than 6 rules into a single step or section; split complex procedures into smaller steps or move detailed domain rules to `references/`.
 
-```yaml
----
-name: my-skill-name
-description: <3rd-person description of capabilities and trigger conditions>
-compatibility: <Optional: e.g. "Requires Python 3.10+ and git CLI">
-license: <Optional: e.g. MIT, Apache-2.0>
----
-```
+## Scripts and References
 
-### `description` (The Critical Routing Signal)
-The `description` is the **only token set loaded into the agent's system prompt during discovery** (~50–100 tokens). It governs whether the skill triggers or stays dormant.
-
-**The Two-Part Formula:**
-1. **What it does:** The specific capability, transformations, and output format.
-2. **When to use it:** Concrete user intents, operational contexts, and trigger keywords.
-
-* **Third-Person Imperative:** Always use third person (*"Extracts data and generates..."*). Never use first person (*"I can help..."*) or second person (*"You should use this..."*). Inconsistent point-of-view degrades router matching.
-* **Avoid Under-Triggering:** Pack high-signal domain keywords, acronyms, and common phrases users actually type.
-* **Avoid Over-Triggering:** Do not use overly generic phrasing (*"Helps write clean code"*, *"Analyzes files"*), which hijacks unrelated queries.
-
----
-
-## Two Core Skill Patterns
-
-### Pattern A: Deterministic Script Runner
-Use when an operation has a single correct algorithmic outcome (e.g., parsing formats, validating schemas, complex regexes, or fixed multi-flag CLI sequences).
-
-- **Principle: "Solve, don't defer."** The script in `scripts/` must catch exceptions, handle missing parameters, and format output cleanly rather than crashing and expecting the LLM to interpret raw stack traces.
-- **Context Economy:** A script on disk costs 0 context tokens until executed. Letting an agent generate script code on the fly consumes output tokens during generation and input tokens on every subsequent turn.
-
-### Pattern B: Contextual Checklist
-Use when an operation requires semantic reasoning, code design trade-offs, or qualitative evaluation (e.g., code review, API usability audit).
-
-- Structure as step-by-step numbered phases with binary checkable criteria.
-- Limit concurrent constraints in any single phase to 5–6 items to prevent instruction saturation.
+1. **Offload Deterministic Work to `scripts/`:** Do not write natural-language instructions for operations that have a deterministic, algorithmic outcome (such as parsing, validation, or fixed CLI sequences); put an executable script in `scripts/` and instruct the agent to run it instead.
+2. **Handle Errors Inside Scripts:** Do not let bundled scripts crash with raw stack traces or silently ignore bad inputs; validate arguments, catch errors, and print a clear error message with a non-zero exit code instead.
+3. **Keep `SKILL.md` Under 500 Lines:** Do not inline long domain guides or branch-specific checklists that bloat `SKILL.md` past 500 lines; move them into `references/` and load them only when needed.
+4. **Single-Hop Reference Files:** Do not link from one reference file to another, mix multiple topics in one file, or exceed 300 lines per reference file; put each topic in its own file under 300 lines inside `references/` and link to it directly from `SKILL.md`.
