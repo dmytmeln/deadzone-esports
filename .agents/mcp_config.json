@@ -2,18 +2,29 @@
   "mcpServers": {
     "ast-grep": {
       "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/ast-grep/ast-grep-mcp",
-        "ast-grep-server"
-      ],
-      "disabled": false
+      "args": ["--from", "git+https://github.com/ast-grep/ast-grep-mcp", "ast-grep-server"],
+      "disabled": true
     },
     "codegraph": {
       "command": "codegraph",
+      "args": ["serve", "--mcp"],
+      "env": {
+        "CODEGRAPH_MCP_TOOLS": "explore,impact"
+      }
+    },
+    "serena": {
+      "command": "uvx",
       "args": [
-        "serve",
-        "--mcp"
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide-assistant",
+        "--mode",
+        "no-memories",
+        "--project",
+        "."
       ]
     }
   }
